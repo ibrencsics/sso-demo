@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="
+        http://cxf.apache.org/core
+        http://cxf.apache.org/schemas/core.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://cxf.apache.org/jaxws                                     
+        http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.0.xsd
+        http://www.springframework.org/schema/jdbc 
+        http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+
+
+	<!-- <jdbc:embedded-database id="dataSource" type="H2"> -->
+	<!-- <jdbc:script location="/WEB-INF/schema.sql"/> -->
+	<!-- <jdbc:script location="classpath:test-data.sql"/> -->
+	<!-- </jdbc:embedded-database> -->
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url};MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
+		<jdbc:script location="/WEB-INF/schema.sql" />
+	</jdbc:initialize-database>
+
+	<!-- https://groups.google.com/forum/?fromgroups#!topic/h2-database/eLRViLPcDCM -->
+
+</beans>

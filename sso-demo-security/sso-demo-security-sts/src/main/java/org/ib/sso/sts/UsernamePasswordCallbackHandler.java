@@ -19,6 +19,11 @@
 package org.ib.sso.sts;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
 import java.util.Map;
 
 import javax.security.auth.callback.Callback;
@@ -26,9 +31,12 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import org.apache.ws.security.WSPasswordCallback;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 public class UsernamePasswordCallbackHandler implements CallbackHandler {
 
     private Map<String, String> passwords;
+    private JdbcTemplate jdbcTemplate;
 
     public void setPasswords(Map<String, String> passwords) {
         this.passwords = passwords;
@@ -37,12 +45,49 @@ public class UsernamePasswordCallbackHandler implements CallbackHandler {
     public Map<String, String> getPasswords() {
         return passwords;
     }
+    
+    public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
 
-    public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+	public void setJdbcTemplate(JdbcTemplate jdbcTemple) {
+		this.jdbcTemplate = jdbcTemple;
+	}
+
+	
+	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
 
         if (getPasswords() == null || getPasswords().size() == 0) {
             return;
         }
+        
+        // H2
+        
+//        try {
+//			org.h2.Driver.load();
+//			
+//			Connection conn = DriverManager.getConnection("jdbc:h2:mem:diad", "diaduser", "diadpass");
+//			
+//			PreparedStatement st = conn.prepareStatement("select * from USER");
+//			ResultSet rs = st.executeQuery();
+//			
+//			while(rs.next()) {
+//				System.out.println("----------------------------- " + rs.getString("Name"));
+//			}
+//			
+//			rs.close();
+//			conn.close();
+//			
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+        
+        List<Map<String,Object>> rows = getJdbcTemplate().queryForList("select * from USER");
+        for (Map row : rows) {
+    		System.out.println("+++++++++++++++++ " + row.get("Name"));
+    	}
+        
 
         for (int i = 0; i < callbacks.length; i++) {
             if (callbacks[i] instanceof WSPasswordCallback) { // CXF
