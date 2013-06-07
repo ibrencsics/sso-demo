@@ -10,10 +10,11 @@
    <packaging>pom</packaging>
    
    <modules>
-      <module>sso-demo-business</module>
-      <module>sso-demo-comm</module>
-      <module>sso-demo-ext</module>
-      <module>sso-demo-utils</module>
+      <!--module>sso-demo-business</module-->
+      <!--module>sso-demo-comm</module-->
+      <module>sso-demo-security</module>
+      <!--module>sso-demo-ext</module-->
+      <!--module>sso-demo-utils</module-->
    </modules>
 
    <prerequisites>
@@ -22,6 +23,10 @@
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	  <cxf.version>2.7.5</cxf.version>
+	  <spring.version>3.0.7.RELEASE</spring.version>
+	  <junit.version>4.8.2</junit.version>
+	  <slf4j.version>1.7.5</slf4j.version>
    </properties>
 
    <build>
@@ -41,7 +46,7 @@
             <version>2.8</version>
             <configuration>
                <downloadSources>true</downloadSources>
-               <!--downloadJavadocs>true</downloadJavadocs-->
+               <downloadJavadocs>true</downloadJavadocs>
                <!--useProjectReferences>false</useProjectReferences-->
             </configuration>
          </plugin>
@@ -67,44 +72,6 @@
          </plugins>
       </pluginManagement>
    </build>
-
-   <profiles>
-      <profile>
-         <id>CXF</id>
-         <!-- To use Metro by default, move activation element to its profile below  -->
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <properties>
-            <cxf.version>2.7.5</cxf.version>
-         </properties>
-         <dependencies>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-frontend-jaxws</artifactId>
-               <version>${cxf.version}</version>
-            </dependency>
-            <dependency>
-               <groupId>org.apache.cxf</groupId>
-               <artifactId>cxf-rt-transports-http</artifactId>
-               <version>${cxf.version}</version>
-            </dependency>
-         </dependencies>
-      </profile>
-
-      <profile>
-         <!-- See http://metro.java.net/guide/ch02.html#using-mavenized-metro-binaries
-              for more Metro/Maven config info -->
-         <id>Metro</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.glassfish.metro</groupId>
-               <artifactId>webservices-rt</artifactId>
-               <version>2.2.1-1</version>
-            </dependency>
-         </dependencies>
-      </profile>
-   </profiles>
 
 </project>
 
