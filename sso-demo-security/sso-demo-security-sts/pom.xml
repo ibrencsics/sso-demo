@@ -18,7 +18,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<adapter.resource>file</adapter.resource>
+		<adapter.resource>h2</adapter.resource>
 		<h2.version>1.3.172</h2.version>
 		<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
 		<jdbc.url>jdbc:h2:mem:diad</jdbc.url>
@@ -37,6 +37,13 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>

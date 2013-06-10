@@ -25,7 +25,6 @@
 
 	<bean id="upCallBackHandler" class="org.ib.sso.sts.UsernamePasswordCallbackHandler">
 		<property name="passwords" ref="passwords" />
-		<property name="jdbcTemplate" ref="jdbcTemplate"/>
 	</bean>
 	
 	<jaxws:endpoint id="transportSTS1" implementor="#transportSTSProviderBean"
