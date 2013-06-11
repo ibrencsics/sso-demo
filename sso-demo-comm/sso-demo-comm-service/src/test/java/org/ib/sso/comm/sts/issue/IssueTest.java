@@ -147,7 +147,7 @@ public class IssueTest {
 		properties.put(SecurityConstants.USERNAME, "Libri");
 		properties.put(
 				SecurityConstants.CALLBACK_HANDLER, 
-				"org.ib.sso.comm.sts.issue.CommonCallbackHandler"
+				"org.ib.sso.comm.sts.common.CommonCallbackHandler"
 				);
 		properties.put(SecurityConstants.IS_BSP_COMPLIANT, "false");
 

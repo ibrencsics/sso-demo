@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.ib.sso.comm.sts.issue;
+package org.ib.sso.comm.sts.common;
 
 import java.io.IOException;
 import javax.security.auth.callback.Callback;
@@ -38,6 +38,9 @@ public class CommonCallbackHandler implements CallbackHandler {
                     pc.setPassword("dummypass");
                     break;
                 } else if ("Libri2".equals(pc.getIdentifier())) {
+                    pc.setPassword("dummypass");
+                    break;
+                } else if ("BKV".equals(pc.getIdentifier())) {
                     pc.setPassword("dummypass");
                     break;
                 }
