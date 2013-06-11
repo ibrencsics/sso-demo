@@ -158,9 +158,9 @@
   	</wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="SecurityTokenService">
-      <wsdl:port name="Transport_Port" binding="tns:Transport_Binding">
-         <soap12:address location="http://localhost:8080/jaxws-sts/sts" />
-      </wsdl:port>
+<!--       <wsdl:port name="Transport_Port" binding="tns:Transport_Binding"> -->
+<!--          <soap12:address location="http://localhost:8080/jaxws-sts/sts" /> -->
+<!--       </wsdl:port> -->
        <wsdl:port name="TransportUT_Port" binding="tns:TransportUT_Binding">
          <soap12:address location="http://localhost:8080/jaxws-sts/sts" />
       </wsdl:port>      

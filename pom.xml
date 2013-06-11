@@ -11,7 +11,7 @@
    
    <modules>
       <!--module>sso-demo-business</module-->
-      <!--module>sso-demo-comm</module-->
+      <module>sso-demo-comm</module>
       <module>sso-demo-security</module>
       <!--module>sso-demo-ext</module-->
       <!--module>sso-demo-utils</module-->

@@ -16,37 +16,32 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.ib.sso.sts;
+package org.ib.sso.comm.sts.issue;
 
 import java.io.IOException;
-
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import org.apache.ws.security.WSPasswordCallback;
 
-public class PasswordCallbackHandler implements CallbackHandler {
+public class CommonCallbackHandler implements CallbackHandler {
 
-    public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+    public void handle(Callback[] callbacks) throws IOException,
+            UnsupportedCallbackException {
         for (int i = 0; i < callbacks.length; i++) {
             if (callbacks[i] instanceof WSPasswordCallback) { // CXF
                 WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-                if ("realma".equals(pc.getIdentifier())) {
-                    pc.setPassword("realma");
+                if ("commkey".equals(pc.getIdentifier())) {
+                    pc.setPassword("commpass");
                     break;
-                } else if ("realmb".equals(pc.getIdentifier())) {
-                    pc.setPassword("realmb");
+                } else if ("Libri".equals(pc.getIdentifier())) {
+                    pc.setPassword("dummypass");
                     break;
-                }
-                if ("mystskey".equals(pc.getIdentifier())) {
-                    pc.setPassword("stskpass");
+                } else if ("Libri2".equals(pc.getIdentifier())) {
+                    pc.setPassword("dummypass");
                     break;
-                }
-                if ("stskey".equals(pc.getIdentifier())) {
-                	pc.setPassword("stspass");
                 }
             }
         }
     }
-
 }
