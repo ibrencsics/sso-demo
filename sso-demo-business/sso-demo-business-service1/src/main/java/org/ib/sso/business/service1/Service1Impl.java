@@ -35,7 +35,7 @@ public class Service1Impl implements Service1Endpoint {
 			LOG.info("Token: ");
 			LOG.info(samlData.getTokenAsString());
 			
-			response.getNode().add("Service1: Successfully called by " + samlData.getUserPrincipal().getName());
+			response.getNode().add("Service1: Successfully called by user " + samlData.getUserPrincipal().getName());
 			
 		} catch (CommLibException e) {
 			e.printStackTrace();

@@ -1,0 +1,129 @@
+<project name="sso-demo" default="usage" basedir=".">
+    
+	<property name="tomcat_tsm_home" location="c:/Utils/apache-tomcat-7.0.40-sso-demo-tsm/"/>
+    <property name="tomcat_tsm_deploy_dir" location="${tomcat_tsm_home}/webapps"/>
+	
+	<property name="tomcat_sts_home" location="c:/Utils/apache-tomcat-7.0.40-sso-demo-sts/"/>
+    <property name="tomcat_sts_deploy_dir" location="${tomcat_sts_home}/webapps"/>
+    
+	<!-- Service 1 -->
+	
+    <property name="service1_archive_name" value="sso-demo-business-service1"/>
+	<property name="service1_project_dir" value="sso-demo-business/sso-demo-business-service1"/>
+    <property name="service1_archive_rel_path" location="${service1_project_dir}/target/${service1_archive_name}.war"/>
+
+	<target name="service1 redeploy" description="service1 redeploy">
+        <exec executable="cmd" dir="${service1_project_dir}">
+            <arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="package"/>
+            <!--arg value="-o"/-->
+        </exec>
+        <copy file="${service1_archive_rel_path}"
+              todir="${tomcat_tsm_deploy_dir}"
+              failonerror="true" />
+    </target>
+
+    <target name="service1 clean redeploy" description="service1 redeploy">
+        <exec executable="cmd" dir="${service1_project_dir}">
+            <arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="clean"/>
+            <arg value="package"/>
+            <!--arg value="-o"/-->
+        </exec>
+        <copy file="${service1_archive_rel_path}"
+              todir="${tomcat_tsm_deploy_dir}"
+              failonerror="true" />
+    </target>
+
+    <target name="service1 clean" description="service1 clean">
+        <exec executable="cmd" dir="${service1_project_dir}">
+            <arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="clean"/>
+        </exec>
+    </target>
+	
+	<!-- STS -->
+	
+	<property name="sts_archive_name" value="sso-demo-security-sts"/>
+	<property name="sts_project_dir" value="sso-demo-security/sso-demo-security-sts"/>
+    <property name="sts_archive_rel_path" location="${sts_project_dir}/target/${sts_archive_name}.war"/>
+	
+	<target name="sts redeploy" description="sts redeploy">
+        <exec executable="cmd" dir="${sts_project_dir}">
+            <arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="package"/>
+            <!--arg value="-o"/-->
+        </exec>
+        <copy file="${sts_archive_rel_path}"
+              todir="${tomcat_sts_deploy_dir}"
+              failonerror="true" />
+    </target>
+
+    <target name="sts clean redeploy" description="sts clean redeploy">
+        <exec executable="cmd" dir="${sts_project_dir}">
+            <arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="clean"/>
+			<arg value="package"/>
+            <!--arg value="-o"/-->
+        </exec>
+        <copy file="${sts_archive_rel_path}"
+              todir="${tomcat_sts_deploy_dir}"
+              failonerror="true" />
+    </target>
+	
+	<target name="sts clean" description="sts clean">
+        <exec executable="cmd" dir="${sts_project_dir}">
+            <arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="clean"/>
+        </exec>
+    </target>
+	
+	<!-- Comm Lib -->
+	
+	<property name="comm_lib_project_dir" value="sso-demo-comm/sso-demo-comm-lib"/>
+	
+	<target name="comm lib clean install" description="comm lib clean install">
+		<exec executable="cmd" dir="${comm_lib_project_dir}">
+			<arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="clean"/>
+			<arg value="install"/>
+		</exec>
+	</target>
+	
+	<!-- Utils -->
+	
+	<property name="utils_project_dir" value="sso-demo-utils"/>
+	
+	<target name="utils clean install" description="utils clean install">
+		<exec executable="cmd" dir="${utils_project_dir}">
+			<arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="clean"/>
+			<arg value="install"/>
+		</exec>
+	</target>
+	
+</project>
