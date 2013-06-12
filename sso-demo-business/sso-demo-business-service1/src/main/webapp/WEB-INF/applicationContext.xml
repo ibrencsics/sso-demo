@@ -29,5 +29,17 @@
 		</jaxws:features>
 
 	</jaxws:endpoint>
+	
+	<jaxws:endpoint id="Service1Service" 
+		implementor="org.ib.sso.business.service1.Service1Impl"
+		wsdlLocation="WEB-INF/wsdl/Service1.wsdl"
+		serviceName="svc:Service1Service" xmlns:svc="http://sso.ib.org/service/service1/"
+		address="/Service1">
+		
+		<jaxws:properties>
+			<entry key="ws-security.signature.properties" value="service1.properties" />
+		</jaxws:properties>
+		
+	</jaxws:endpoint>
 
 </beans>

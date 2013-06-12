@@ -35,27 +35,43 @@
 		wsdlLocation="wsdl/hello_world.wsdl">
 		<jaxws:properties>
 			<entry key="ws-security.sts.client">
-				<bean class="org.apache.cxf.ws.security.trust.STSClient">
-					<constructor-arg ref="cxf" />
-					<property name="wsdlLocation" value="https://localhost:9443/sso-demo-security-sts/STSService?wsdl" />
-					<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
-					<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}TransportUT_Port" />
-					
-<!-- 					<property name="onBehalfOf" ref="delegationCallbackHandler" /> -->
-					<property name="enableAppliesTo" value="true" />
-					<property name="properties">
-						<map>
-							<entry key="ws-security.username" value="BKV"/>
-							<entry key="ws-security.callback-handler" value="org.ib.sso.comm.sts.common.CommonCallbackHandler"/>
-							<entry key="ws-security.sts.token.username" value="commkey"/>
-							<entry key="ws-security.sts.token.properties" value="comm.properties"/>
-						</map>
-					</property>
-				</bean>
+				<ref bean="stsClient"/>
 			</entry>
 			<entry key="ws-security.cache.issued.token.in.endpoint" value="false" />
 		</jaxws:properties>
 	</jaxws:client>
+	
+	<jaxws:client id="Service1Client" serviceName="svc:Service1Service"
+		xmlns:svc="http://sso.ib.org/service/service1/"
+		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
+		address="https://localhost:10443/sso-demo-business-service1/Service1"
+		wsdlLocation="classpath:wsdl/Service1.wsdl">
+		<jaxws:properties>
+			<entry key="ws-security.sts.client">
+				<ref bean="stsClient"/>
+			</entry>
+			<entry key="ws-security.cache.issued.token.in.endpoint" value="false" />
+		</jaxws:properties>
+	</jaxws:client>
+	
+	
+	<bean id="stsClient" class="org.apache.cxf.ws.security.trust.STSClient">
+		<constructor-arg ref="cxf" />
+		<property name="wsdlLocation" value="https://localhost:9443/sso-demo-security-sts/STSService?wsdl" />
+		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}TransportUT_Port" />
+					
+<!-- 	<property name="onBehalfOf" ref="delegationCallbackHandler" /> -->
+		<property name="enableAppliesTo" value="true" />
+		<property name="properties">
+			<map>
+				<entry key="ws-security.username" value="BKV"/>
+				<entry key="ws-security.callback-handler" value="org.ib.sso.comm.sts.common.CommonCallbackHandler"/>
+				<entry key="ws-security.sts.token.username" value="commkey"/>
+				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
+			</map>
+		</property>
+	</bean>
 
 
 	<!-- TLS settings for TransportBinding test-case -->
@@ -78,6 +94,15 @@
 
 	<http:conduit
 		name="{http://apache.org/hello_world_soap_http}GreeterSoapPort.http-conduit">
+		<http:tlsClientParameters disableCNCheck="true">
+			<sec:trustManagers>
+				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />
+			</sec:trustManagers>
+		</http:tlsClientParameters>
+	</http:conduit>
+	
+	<http:conduit
+		name="{http://sso.ib.org/service/service1/}Service1Port.http-conduit">
 		<http:tlsClientParameters disableCNCheck="true">
 			<sec:trustManagers>
 				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />

@@ -14,6 +14,12 @@
 	<packaging>jar</packaging>
 
     <dependencies>
+    	<dependency>
+    		<groupId>org.ib</groupId>
+    		<artifactId>sso-demo-utils</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
