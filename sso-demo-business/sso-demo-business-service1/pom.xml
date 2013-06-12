@@ -64,6 +64,11 @@
 			<artifactId>sso-demo-utils</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.ib</groupId>
+			<artifactId>sso-demo-comm-lib</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.cxf</groupId>

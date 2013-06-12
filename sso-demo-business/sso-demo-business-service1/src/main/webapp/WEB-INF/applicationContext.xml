@@ -9,6 +9,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:passwords.xml"/>
+	<import resource="classpath:comm-lib.xml"/>
 
 	<cxf:bus>
 		<cxf:features>
@@ -27,7 +29,7 @@
 			<entry key="ws-security.signature.properties" value="service1.properties" />
 			<entry key="ws-security.signature.username" value="service1key"/>
 	        
-	        <entry key="ws-security.callback-handler" value="org.ib.sso.business.service1.CommonCallbackHandler"/>
+	        <entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
 	        <entry key="ws-security.encryption.properties" value="service1.properties"/>
 		</jaxws:properties>
 		
