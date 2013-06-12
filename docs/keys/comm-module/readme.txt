@@ -1,5 +1,5 @@
 1) create private key / cert
-keytool -genkey -dname "CN=www.comm.com, OU=Comm, O=Comm, ST=Budapest, C=HU" -validity 1000 -alias commkey -keypass commpass -keystore comm.jks -storepass commpass
+keytool -genkey -keyalg RSA -dname "CN=www.comm.com, OU=Comm, O=Comm, ST=Budapest, C=HU" -validity 1000 -alias commkey -keypass commpass -keystore comm.jks -storepass commpass
 
 2) create a CSR
 keytool -certreq -alias commkey -file comm_csr.pem -keypass commpass -keystore comm.jks -storepass commpass
@@ -14,3 +14,4 @@ copy comm.cer + ca.cer comm_chain.cer
 keytool -import -file comm_chain.cer -keypass commpass -keystore comm.jks -storepass commpass -alias commkey
 keytool -import -file ca.cer -keypass ca1pass -keystore comm.jks -storepass commpass -alias ca1
 keytool -import -file ca.cer -keypass ca2pass -keystore comm.jks -storepass commpass -alias ca2
+keytool -import -file service1.cer -keypass service1pass -keystore comm.jks -storepass commpass -alias service1

@@ -1,5 +1,5 @@
 1) create private key / cert
-keytool -genkey -dname "CN=www.service1.com, OU=Service1, O=Service1, ST=Budapest, C=HU" -validity 1000 -alias service1key -keypass service1pass -keystore service1.jks -storepass service1pass
+keytool -genkey -keyalg RSA -dname "CN=www.service1.com, OU=Service1, O=Service1, ST=Budapest, C=HU" -validity 1000 -alias service1key -keypass service1pass -keystore service1.jks -storepass service1pass
 
 2) create a CSR
 keytool -certreq -alias service1key -file service1_csr.pem -keypass service1pass -keystore service1.jks -storepass service1pass

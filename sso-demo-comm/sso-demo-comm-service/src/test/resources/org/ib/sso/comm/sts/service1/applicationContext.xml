@@ -37,6 +37,7 @@
 			<entry key="ws-security.sts.client">
 				<ref bean="stsClient"/>
 			</entry>
+			<entry key="ws-security.callback-handler" value="org.ib.sso.comm.sts.common.CommonCallbackHandler"/>
 			<entry key="ws-security.cache.issued.token.in.endpoint" value="false" />
 		</jaxws:properties>
 	</jaxws:client>
@@ -51,6 +52,12 @@
 				<ref bean="stsClient"/>
 			</entry>
 			<entry key="ws-security.cache.issued.token.in.endpoint" value="false" />
+			
+			<entry key="ws-security.callback-handler" value="org.ib.sso.comm.sts.common.CommonCallbackHandler"/>
+			<entry key="ws-security.signature.properties" value="comm.properties"/>
+			<entry key="ws-security.signature.username" value="commkey"/>
+           	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
+           	<entry key="ws-security.encryption.username" value="service1"/>
 		</jaxws:properties>
 	</jaxws:client>
 	
@@ -65,10 +72,11 @@
 		<property name="enableAppliesTo" value="true" />
 		<property name="properties">
 			<map>
-				<entry key="ws-security.username" value="BKV"/>
+				<entry key="ws-security.username" value="Libri"/>
 				<entry key="ws-security.callback-handler" value="org.ib.sso.comm.sts.common.CommonCallbackHandler"/>
 				<entry key="ws-security.sts.token.username" value="commkey"/>
 				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
+				<entry key="ws-security.sts.token.usecert" value="true"/>
 			</map>
 		</property>
 	</bean>
