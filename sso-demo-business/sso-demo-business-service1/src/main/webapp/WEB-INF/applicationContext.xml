@@ -16,19 +16,6 @@
 		</cxf:features>
 	</cxf:bus>
 
-	<!-- GreeterService -->
-	<jaxws:endpoint id="GreeterService" implementor="org.apache.cxf.fediz.examples.service.GreeterImpl"
-		wsdlLocation="WEB-INF/wsdl/hello_world.wsdl" serviceName="svc:GreeterService"
-		xmlns:svc="http://apache.org/hello_world_soap_http" address="/GreeterService">
-
-		<jaxws:properties>
-			<entry key="ws-security.signature.properties" value="service1.properties" />
-		</jaxws:properties>
-
-		<jaxws:features>
-		</jaxws:features>
-
-	</jaxws:endpoint>
 	
 	<jaxws:endpoint id="Service1Service" 
 		implementor="org.ib.sso.business.service1.Service1Impl"

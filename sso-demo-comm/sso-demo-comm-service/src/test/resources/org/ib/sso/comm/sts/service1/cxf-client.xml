@@ -28,24 +28,12 @@
 <!-- 	<bean id="delegationCallbackHandler" -->
 <!-- 		class="org.apache.cxf.fediz.cxf.web.ThreadLocalCallbackHandler" /> -->
 
-	<jaxws:client id="HelloServiceClient" serviceName="svc:GreeterService"
-		xmlns:svc="http://apache.org/hello_world_soap_http"
-		serviceClass="org.apache.hello_world_soap_http.Greeter"
-		address="https://localhost:10443/sso-demo-business-service1/GreeterService"
-		wsdlLocation="wsdl/hello_world.wsdl">
-		<jaxws:properties>
-			<entry key="ws-security.sts.client">
-				<ref bean="stsClient"/>
-			</entry>
-			<entry key="ws-security.callback-handler" value="org.ib.sso.comm.sts.common.CommonCallbackHandler"/>
-			<entry key="ws-security.cache.issued.token.in.endpoint" value="false" />
-		</jaxws:properties>
-	</jaxws:client>
+<!-- 	address="https://localhost:10443/sso-demo-business-service1/Service1" -->
 	
 	<jaxws:client id="Service1Client" serviceName="svc:Service1Service"
 		xmlns:svc="http://sso.ib.org/service/service1/"
 		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
-		address="https://localhost:10443/sso-demo-business-service1/Service1"
+		address="http://localhost:10080/sso-demo-business-service1/Service1"
 		wsdlLocation="classpath:wsdl/Service1.wsdl">
 		<jaxws:properties>
 			<entry key="ws-security.sts.client">
@@ -100,15 +88,6 @@
 		</http:tlsClientParameters>
 	</http:conduit>
 
-	<http:conduit
-		name="{http://apache.org/hello_world_soap_http}GreeterSoapPort.http-conduit">
-		<http:tlsClientParameters disableCNCheck="true">
-			<sec:trustManagers>
-				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />
-			</sec:trustManagers>
-		</http:tlsClientParameters>
-	</http:conduit>
-	
 	<http:conduit
 		name="{http://sso.ib.org/service/service1/}Service1Port.http-conduit">
 		<http:tlsClientParameters disableCNCheck="true">
