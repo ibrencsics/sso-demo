@@ -11,7 +11,6 @@ public class Service1Test {
 
 	private ApplicationContext ctx;
 	
-	
 	public ApplicationContext getContext() {
 		if (ctx==null) {
 			ctx = new ClassPathXmlApplicationContext("classpath:org/ib/sso/comm/sts/service1/cxf-client.xml");

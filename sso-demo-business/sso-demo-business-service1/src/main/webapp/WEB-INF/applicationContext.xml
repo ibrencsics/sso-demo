@@ -23,6 +23,7 @@
 		implementor="org.ib.sso.business.service1.Service1Impl"
 		wsdlLocation="WEB-INF/wsdl/Service1.wsdl"
 		serviceName="svc:Service1Service" xmlns:svc="http://sso.ib.org/service/service1/"
+		endpointName="svc:Service1Port"
 		address="/Service1">
 		
 		<jaxws:properties>

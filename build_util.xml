@@ -111,6 +111,74 @@
 		</exec>
 	</target>
 	
+	<!-- Comm Service -->
+	
+	<property name="comm_service_project_dir" value="sso-demo-comm/sso-demo-comm-service"/>
+	
+	<target name="comm service clean install" description="comm service clean install">
+		<exec executable="cmd" dir="${comm_service_project_dir}">
+			<arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="clean"/>
+			<arg value="install"/>
+		</exec>
+	</target>
+	
+	<target name="comm service test Service1Test" description="comm service test Service1Test">
+		<exec executable="cmd" dir="${comm_service_project_dir}">
+			<arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-Dtest=org.ib.sso.comm.sts.service1.Service1Test#callTest"/>
+            <arg value="test"/>
+		</exec>
+	</target>
+	
+	<!-- Comm Module WAR -->
+	
+	<property name="comm_module_archive_name" value="sso-demo-comm-war"/>
+	<property name="comm_module_project_dir" value="sso-demo-comm/sso-demo-comm-war"/>
+    <property name="comm_module_archive_rel_path" location="${comm_module_project_dir}/target/${comm_module_archive_name}.war"/>
+	
+	<target name="comm module clean package" description="comm module clean package">
+        <exec executable="cmd" dir="${comm_module_project_dir}">
+            <arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="clean"/>
+			<arg value="package"/>
+            <!--arg value="-o"/-->
+        </exec>
+    </target>
+	
+	<target name="comm module test Service1ExtTest" description="comm module test Service1ExtTest">
+		<exec executable="cmd" dir="${comm_module_project_dir}">
+			<arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-Dtest=org.ib.sso.comm.ext.Service1ExtTest#callTest"/>
+            <arg value="test"/>
+		</exec>
+	</target>
+	
+	<target name="comm module clean redeploy" description="comm module clean redeploy">
+        <exec executable="cmd" dir="${comm_module_project_dir}">
+            <arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-DskipTests=true"/>
+            <arg value="clean"/>
+			<arg value="package"/>
+            <!--arg value="-o"/-->
+        </exec>
+        <copy file="${comm_module_archive_rel_path}"
+              todir="${tomcat_tsm_deploy_dir}"
+              failonerror="true" />
+    </target>
+	
 	<!-- Utils -->
 	
 	<property name="utils_project_dir" value="sso-demo-utils"/>
@@ -125,5 +193,16 @@
 			<arg value="install"/>
 		</exec>
 	</target>
+	
+	<!-- Eclipse -->
+	
+	<target name="eclipse" description="eclipse">
+		<exec executable="cmd" dir=".">
+			<arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="eclipse:eclipse"/>
+		</exec>
+	</target>	
 	
 </project>

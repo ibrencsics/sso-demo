@@ -30,7 +30,9 @@
 
 <!-- 	address="https://localhost:10443/sso-demo-business-service1/Service1" -->
 	
-	<jaxws:client id="Service1Client" serviceName="svc:Service1Service"
+	<jaxws:client id="Service1Client" 
+		serviceName="svc:Service1Service"
+		endpointName="svc:Service1Port"
 		xmlns:svc="http://sso.ib.org/service/service1/"
 		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
 		address="http://localhost:10080/sso-demo-business-service1/Service1"

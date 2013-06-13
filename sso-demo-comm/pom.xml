@@ -17,7 +17,7 @@
 	
 	<modules>
 		<module>sso-demo-comm-service</module>
-		<!--module>sso-demo-comm-war</module-->
+		<module>sso-demo-comm-war</module>
 		<module>sso-demo-comm-lib</module>
 	</modules>
    

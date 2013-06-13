@@ -42,11 +42,34 @@
 		</wsdl:operation>
 	</wsdl:binding>
 	
+	<wsdl:binding name="Service1ExtBinding" type="tns:Service1Endpoint">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="TestOperation">
+			<soap:operation soapAction="http://sso.ib.org/service/service1/TestOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	
 	<wsdl:service name="Service1Service">
 		<wsdl:port binding="tns:Service1Binding" name="Service1Port">
 			<soap:address location="http://www.example.org/" />
 		</wsdl:port>
+		<wsdl:port binding="tns:Service1ExtBinding" name="Service1ExtPort">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
 	</wsdl:service>
+
+<!-- 	<wsdl:service name="Service1ExtService"> -->
+<!-- 		<wsdl:port binding="tns:Service1ExtBinding" name="Service1ExtPort"> -->
+<!-- 			<soap:address location="http://www.example.org/" /> -->
+<!-- 		</wsdl:port> -->
+<!-- 	</wsdl:service> -->
+
 
 	<wsp:Policy wsu:Id="BindingTransportSAMLPolicy">
 		<wsp:ExactlyOne>
