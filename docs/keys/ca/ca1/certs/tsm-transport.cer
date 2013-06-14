@@ -1,0 +1,60 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 3 (0x3)
+        Signature Algorithm: md5WithRSAEncryption
+        Issuer: C=HU, ST=Budapest, L=Budapest, O=CA1, OU=CA1, CN=www.ca1.com
+        Validity
+            Not Before: Jun 14 10:27:01 2013 GMT
+            Not After : Mar 10 10:27:01 2016 GMT
+        Subject: C=HU, ST=Budapest, O=TSM-TRANSPORT, OU=TSM-TRANSPORT, CN=www.tsm-transport.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:d4:06:90:b1:d1:48:1f:8c:5d:be:0e:ae:b5:e4:
+                    6c:fc:c5:73:f2:b8:ef:2f:57:dd:d3:bb:ea:0f:ca:
+                    b8:ce:23:0b:fd:8b:05:66:21:2c:71:a9:66:61:df:
+                    54:49:a7:09:b5:81:b0:75:a4:66:62:03:69:73:0c:
+                    60:53:fb:94:52:38:4c:3f:75:43:22:8b:5f:bc:9e:
+                    b2:29:86:cb:f6:56:fd:bb:a9:29:73:dd:d4:4d:26:
+                    d9:f5:9d:14:3e:fa:13:cf:48:84:40:43:31:33:f8:
+                    86:f4:cb:03:2e:44:86:cb:1d:d4:c0:bf:39:20:a1:
+                    3e:e9:f7:19:aa:4b:d3:92:58:e1:83:48:9c:ee:a2:
+                    7b:ab:d8:f0:4a:6d:1d:aa:78:99:09:c6:22:7c:61:
+                    e5:7e:f8:86:1a:56:6f:2f:ef:89:33:82:08:72:cd:
+                    7e:3d:3d:77:d9:f6:c6:bc:01:2b:0f:6d:26:c2:81:
+                    75:21:96:85:cc:54:58:ac:45:f2:fa:a6:6a:e6:bb:
+                    43:ad:ad:83:32:36:36:ed:d3:bc:52:b5:98:10:09:
+                    36:e5:08:8c:ec:10:92:0c:6f:f5:0a:d8:5b:35:7f:
+                    29:69:3e:7b:21:09:9e:7e:bb:81:5f:e7:2e:f4:27:
+                    c5:6d:85:15:ab:1c:bb:81:b2:fb:41:0e:bb:32:85:
+                    e5:51
+                Exponent: 65537 (0x10001)
+    Signature Algorithm: md5WithRSAEncryption
+        cc:34:5b:7b:36:ab:e5:90:e8:e1:43:ee:b0:0b:03:81:e6:7d:
+        84:33:7b:3d:c9:c7:db:3e:99:7e:db:8f:e9:d6:3a:3b:71:78:
+        79:dc:63:0a:64:8a:15:dd:b8:90:e7:58:ea:03:d3:30:07:e2:
+        57:0d:d1:5d:04:cd:29:62:a2:d9:93:aa:77:a2:66:b2:f2:25:
+        ec:e4:68:19:0d:bd:1a:15:38:86:f4:33:6c:b4:20:4d:37:b0:
+        76:6a:cf:63:37:a9:ab:f7:d9:09:d4:60:3d:83:2b:f8:2d:7a:
+        e4:c5:cb:57:fc:47:84:90:f4:ab:57:f6:9f:42:e7:d6:e6:8e:
+        b0:45
+-----BEGIN CERTIFICATE-----
+MIICzTCCAjagAwIBAgIBAzANBgkqhkiG9w0BAQQFADBlMQswCQYDVQQGEwJIVTER
+MA8GA1UECBMIQnVkYXBlc3QxETAPBgNVBAcTCEJ1ZGFwZXN0MQwwCgYDVQQKEwND
+QTExDDAKBgNVBAsTA0NBMTEUMBIGA1UEAxMLd3d3LmNhMS5jb20wHhcNMTMwNjE0
+MTAyNzAxWhcNMTYwMzEwMTAyNzAxWjBwMQswCQYDVQQGEwJIVTERMA8GA1UECBMI
+QnVkYXBlc3QxFjAUBgNVBAoTDVRTTS1UUkFOU1BPUlQxFjAUBgNVBAsTDVRTTS1U
+UkFOU1BPUlQxHjAcBgNVBAMTFXd3dy50c20tdHJhbnNwb3J0LmNvbTCCASIwDQYJ
+KoZIhvcNAQEBBQADggEPADCCAQoCggEBANQGkLHRSB+MXb4OrrXkbPzFc/K47y9X
+3dO76g/KuM4jC/2LBWYhLHGpZmHfVEmnCbWBsHWkZmIDaXMMYFP7lFI4TD91QyKL
+X7yesimGy/ZW/bupKXPd1E0m2fWdFD76E89IhEBDMTP4hvTLAy5Ehssd1MC/OSCh
+Pun3GapL05JY4YNInO6ie6vY8EptHap4mQnGInxh5X74hhpWby/viTOCCHLNfj09
+d9n2xrwBKw9tJsKBdSGWhcxUWKxF8vqmaua7Q62tgzI2Nu3TvFK1mBAJNuUIjOwQ
+kgxv9QrYWzV/KWk+eyEJnn67gV/nLvQnxW2FFascu4Gy+0EOuzKF5VECAwEAATAN
+BgkqhkiG9w0BAQQFAAOBgQDMNFt7NqvlkOjhQ+6wCwOB5n2EM3s9ycfbPpl+24/p
+1jo7cXh53GMKZIoV3biQ51jqA9MwB+JXDdFdBM0pYqLZk6p3omay8iXs5GgZDb0a
+FTiG9DNstCBNN7B2as9jN6mr99kJ1GA9gyv4LXrkxctX/EeEkPSrV/afQufW5o6w
+RQ==
+-----END CERTIFICATE-----
