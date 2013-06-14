@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:http="http://cxf.apache.org/transports/http/configuration"
+	xmlns:sec="http://cxf.apache.org/configuration/security"
+	xsi:schemaLocation="
+        http://cxf.apache.org/core                   	http://cxf.apache.org/schemas/core.xsd
+        http://cxf.apache.org/jaxws                  	http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/beans    	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context  	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://cxf.apache.org/transports/http/configuration
+        http://cxf.apache.org/schemas/configuration/http-conf.xsd
+        http://cxf.apache.org/configuration/security
+        http://cxf.apache.org/schemas/configuration/security.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+<!-- 	<context:component-scan base-package="org.apache.cxf.fediz.example" /> -->
+<!-- 	<context:annotation-config /> -->
+
+<!-- 	<cxf:bus> -->
+<!-- 		<cxf:features> -->
+<!-- 			<cxf:logging /> -->
+<!-- 		</cxf:features> -->
+<!-- 	</cxf:bus> -->
+
+<!-- 	<bean id="delegationCallbackHandler" -->
+<!-- 		class="org.apache.cxf.fediz.cxf.web.ThreadLocalCallbackHandler" /> -->
+
+<!-- 	address="https://localhost:10443/sso-demo-business-service1/Service1" -->
+	
+	<jaxws:client id="Service1Client" 
+		serviceName="svc:Service1Service"
+		endpointName="svc:Service1Port"
+		xmlns:svc="http://sso.ib.org/service/service1/"
+		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
+		address="http://localhost:10080/sso-demo-business-service1/Service1"
+		wsdlLocation="classpath:wsdl/Service1.wsdl">
+		<jaxws:properties>
+			<entry key="ws-security.sts.client">
+				<ref bean="stsClient"/>
+			</entry>
+			<entry key="ws-security.cache.issued.token.in.endpoint" value="false" />
+			
+			<entry key="ws-security.callback-handler" value="org.ib.sso.comm.ext.CommonCallbackHandler"/>
+			<entry key="ws-security.signature.properties" value="comm.properties"/>
+			<entry key="ws-security.signature.username" value="commkey"/>
+           	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
+           	<entry key="ws-security.encryption.username" value="service1"/>
+		</jaxws:properties>
+	</jaxws:client>
+	
+	
+	<bean id="stsClient" class="org.apache.cxf.ws.security.trust.STSClient">
+		<constructor-arg ref="cxf" />
+		<property name="wsdlLocation" value="https://localhost:9443/sso-demo-security-sts/STSService?wsdl" />
+		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}TransportUT_Port" />
+					
+		<property name="enableAppliesTo" value="true" />
+		<property name="properties">
+			<map>
+				<entry key="ws-security.username" value="Libri"/>
+				<entry key="ws-security.callback-handler" value="org.ib.sso.comm.ext.CommonCallbackHandler"/>
+				<entry key="ws-security.sts.token.username" value="commkey"/>
+				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
+				<entry key="ws-security.sts.token.usecert" value="true"/>
+			</map>
+		</property>
+	</bean>
+
+
+	<http:conduit name="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}Transport_Port.http-conduit">
+		<http:tlsClientParameters disableCNCheck="true">
+			<sec:trustManagers>
+				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />
+			</sec:trustManagers>
+		</http:tlsClientParameters>
+	</http:conduit>
+
+	<http:conduit name="https://localhost:9443/.*">
+		<http:tlsClientParameters disableCNCheck="true">
+			<sec:trustManagers>
+				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />
+			</sec:trustManagers>
+		</http:tlsClientParameters>
+	</http:conduit>
+
+	<http:conduit
+		name="{http://sso.ib.org/service/service1/}Service1Port.http-conduit">
+		<http:tlsClientParameters disableCNCheck="true">
+			<sec:trustManagers>
+				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />
+			</sec:trustManagers>
+		</http:tlsClientParameters>
+	</http:conduit>
+
+</beans>

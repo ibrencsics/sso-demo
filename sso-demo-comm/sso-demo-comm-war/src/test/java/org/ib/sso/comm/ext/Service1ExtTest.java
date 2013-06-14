@@ -24,8 +24,8 @@ public class Service1ExtTest {
 		
 		Service1Endpoint service = (Service1Endpoint) getContext().getBean("Service1ExtClient");
 		TestRequestType request = new TestRequestType();
-		request.setMessageId("1");
+		request.setMessageId("12");
 		TestResponseType response = service.testOperation(request);
-//		System.out.println("Received: " + response.getMessageId() + " / " + response.getNode());
+		System.out.println("Received: " + response.getMessageId() + " / " + response.getNode());
 	}
 }

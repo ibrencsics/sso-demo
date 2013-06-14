@@ -5,6 +5,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
+	<import resource="classpath:commServiceAppCtx.xml"/>
+
 	<jaxws:endpoint id="service1Ext"
 		implementor="org.ib.sso.comm.ext.Service1Ext"
 		wsdlLocation="WEB-INF/wsdl/Service1.wsdl"
@@ -13,5 +15,5 @@
 		address="/Service1">
 		
 	</jaxws:endpoint>
-
+	
 </beans>

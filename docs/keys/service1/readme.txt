@@ -12,5 +12,6 @@ copy service1.cer + ca.cer service1_chain.cer
 
 5) update keystore
 keytool -import -file service1_chain.cer -keypass service1pass -keystore service1.jks -storepass service1pass -alias service1key
-keytool -import -file ca.cer -keypass ca1pass -keystore service1.jks -storepass service1pass -alias ca1
-keytool -import -file ca.cer -keypass ca2pass -keystore service1.jks -storepass service1pass -alias ca2
+keytool -import -file ca.cer -keystore service1.jks -storepass service1pass -alias ca1
+keytool -import -file ca.cer -keystore service1.jks -storepass service1pass -alias ca2
+keytool -import -file ca.cer -keystore client.jks -storepass service1pass -alias client

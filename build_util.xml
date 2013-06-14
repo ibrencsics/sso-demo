@@ -160,6 +160,7 @@
             <arg value="call"/>
             <arg value="mvn"/>
             <arg value="-Dtest=org.ib.sso.comm.ext.Service1ExtTest#callTest"/>
+			<!--arg value="-Djavax.net.debug=all"/-->
             <arg value="test"/>
 		</exec>
 	</target>

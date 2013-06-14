@@ -22,12 +22,14 @@
 		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
 		address="https://localhost:10443/sso-demo-comm-war/Service1"
 		wsdlLocation="classpath:wsdl/Service1.wsdl">
-	
 	</jaxws:client>
 	
 	<http:conduit
 		name="{http://sso.ib.org/service/service1/}Service1ExtPort.http-conduit">
 		<http:tlsClientParameters disableCNCheck="true">
+			<sec:keyManagers keyPassword="clientpass">
+				<sec:keyStore type="jks" password="clientpass" resource="client.jks"/>
+			</sec:keyManagers>
 			<sec:trustManagers>
 				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />
 			</sec:trustManagers>
