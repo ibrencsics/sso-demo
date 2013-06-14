@@ -14,3 +14,4 @@ copy client.cer + ca.cer client_chain.cer
 keytool -import -file client_chain.cer -keypass clientpass -keystore client.jks -storepass clientpass -alias clientkey
 keytool -import -file ca.cer -keypass ca1pass -keystore client.jks -storepass clientpass -alias ca1
 keytool -import -file ca.cer -keypass ca2pass -keystore client.jks -storepass clientpass -alias ca2
+keytool -import -file comm.cer -keystore client.jks -storepass clientpass -alias comm

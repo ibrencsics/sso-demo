@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="COMM_SERVICE1_TRANSPORT_WEB_CTX">Service1Transport</entry>
+    <entry key="COMM_SERVICE1_ASYMMETRIC_WEB_CTX">Service1Asymmetric</entry>
+    <entry key="COMM_SERVICE1_WEB_URL_HTTPS">https://localhost:10443/sso-demo-comm-war</entry>
+    <entry key="COMM_SERVICE1_WEB_URL_HTTP">http://localhost:10080/sso-demo-comm-war</entry>
+<!--     <entry key=""></entry> -->
+<!--     <entry key=""></entry> -->
+<!--     <entry key=""></entry> -->
+<!--     <entry key=""></entry> -->
+<!--     <entry key=""></entry> -->
+<!--     <entry key=""></entry> -->
+<!--     <entry key=""></entry> -->
+<!--     <entry key=""></entry> -->
+</properties>

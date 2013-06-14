@@ -7,12 +7,31 @@
 
 	<import resource="classpath:commServiceAppCtx.xml"/>
 
-	<jaxws:endpoint id="service1Ext"
+	<jaxws:endpoint id="service1ExtTransport"
 		implementor="org.ib.sso.comm.ext.Service1Ext"
 		wsdlLocation="WEB-INF/wsdl/Service1.wsdl"
-		serviceName="svc:Service1Service" xmlns:svc="http://sso.ib.org/service/service1/"
-		endpointName="svc:Service1ExtPort"
-		address="/Service1">
+		serviceName="svc:Service1Service" 
+		endpointName="svc:Service1ExtTransportPort"
+		xmlns:svc="http://sso.ib.org/service/service1/"
+		address="/${COMM_SERVICE1_TRANSPORT_WEB_CTX}">
+	</jaxws:endpoint>
+	
+	<jaxws:endpoint id="service1ExtAsymmetric"
+		implementor="org.ib.sso.comm.ext.Service1Ext"
+		wsdlLocation="WEB-INF/wsdl/Service1.wsdl"
+		serviceName="svc:Service1Service" 
+		endpointName="svc:Service1ExtAsymmetricPort"
+		xmlns:svc="http://sso.ib.org/service/service1/"
+		address="/${COMM_SERVICE1_ASYMMETRIC_WEB_CTX}">
+		
+		<jaxws:properties>
+			<entry key="ws-security.signature.properties" value="comm.properties" />
+			<entry key="ws-security.signature.username" value="commkey"/>
+	        
+	        <entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+	        <entry key="ws-security.encryption.properties" value="comm.properties"/>
+	        <entry key="ws-security.encryption.username" value="useReqSigCert"/>
+		</jaxws:properties>
 		
 	</jaxws:endpoint>
 	

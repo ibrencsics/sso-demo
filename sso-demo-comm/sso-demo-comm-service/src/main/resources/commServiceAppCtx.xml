@@ -15,6 +15,8 @@
         http://cxf.apache.org/schemas/configuration/security.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:passwords.xml"/>
+	<import resource="classpath:comm-lib.xml"/>
 
 <!-- 	<context:component-scan base-package="org.apache.cxf.fediz.example" /> -->
 <!-- 	<context:annotation-config /> -->
@@ -43,7 +45,8 @@
 			</entry>
 			<entry key="ws-security.cache.issued.token.in.endpoint" value="false" />
 			
-			<entry key="ws-security.callback-handler" value="org.ib.sso.comm.ext.CommonCallbackHandler"/>
+<!-- 			<entry key="ws-security.callback-handler" value="org.ib.sso.comm.ext.CommonCallbackHandler"/> -->
+			<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
 			<entry key="ws-security.signature.properties" value="comm.properties"/>
 			<entry key="ws-security.signature.username" value="commkey"/>
            	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
@@ -62,7 +65,8 @@
 		<property name="properties">
 			<map>
 				<entry key="ws-security.username" value="Libri"/>
-				<entry key="ws-security.callback-handler" value="org.ib.sso.comm.ext.CommonCallbackHandler"/>
+<!-- 				<entry key="ws-security.callback-handler" value="org.ib.sso.comm.ext.CommonCallbackHandler"/> -->
+				<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
 				<entry key="ws-security.sts.token.username" value="commkey"/>
 				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
 				<entry key="ws-security.sts.token.usecert" value="true"/>

@@ -16,7 +16,7 @@
     <dependencies>
     	<dependency>
     		<groupId>org.ib</groupId>
-    		<artifactId>sso-demo-utils</artifactId>
+    		<artifactId>sso-demo-comm-lib</artifactId>
     		<version>${project.version}</version>
     	</dependency>
     

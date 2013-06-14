@@ -14,17 +14,27 @@ public class Service1ExtTest {
 	
 	public ApplicationContext getContext() {
 		if (ctx==null) {
-			ctx = new ClassPathXmlApplicationContext("classpath:org/ib/sso/comm/ext/cxf-client.xml");
+			ctx = new ClassPathXmlApplicationContext("classpath:org/ib/sso/comm/ext/Service1ExtTestClient.xml");
 		}
         return ctx;
     }
 	
 	@Test
-	public void callTest() {
+	public void callTransportTest() {
 		
-		Service1Endpoint service = (Service1Endpoint) getContext().getBean("Service1ExtClient");
+		Service1Endpoint service = (Service1Endpoint) getContext().getBean("Service1ExtTransportClient");
 		TestRequestType request = new TestRequestType();
 		request.setMessageId("12");
+		TestResponseType response = service.testOperation(request);
+		System.out.println("Received: " + response.getMessageId() + " / " + response.getNode());
+	}
+	
+	@Test
+	public void callAsymmetricTest() {
+		
+		Service1Endpoint service = (Service1Endpoint) getContext().getBean("Service1ExtAsymmetricClient");
+		TestRequestType request = new TestRequestType();
+		request.setMessageId("13");
 		TestResponseType response = service.testOperation(request);
 		System.out.println("Received: " + response.getMessageId() + " / " + response.getNode());
 	}
