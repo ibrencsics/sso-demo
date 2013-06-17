@@ -19,7 +19,7 @@
 	<import resource="classpath:comm-lib.xml"/>
 	
 	<util:map id="passwords">
-		<entry key="clientkey" value="clientpass" />
+		<entry key="clientkey" value="clientkeypass" />
 	</util:map>
 
 	<jaxws:client id="Service1ExtTransportClient"
@@ -39,11 +39,11 @@
 	<http:conduit
 		name="{http://sso.ib.org/service/service1/}Service1ExtTransportPort.http-conduit">
 		<http:tlsClientParameters disableCNCheck="true">
-			<sec:keyManagers keyPassword="clientpass">
-				<sec:keyStore type="jks" password="clientpass" resource="client.jks"/>
+			<sec:keyManagers keyPassword="clientkeypass">
+				<sec:keyStore type="jks" password="clientstorepass" resource="client.jks"/>
 			</sec:keyManagers>
 			<sec:trustManagers>
-				<sec:keyStore type="jks" password="clientpass" resource="client.jks"/>
+				<sec:keyStore type="jks" password="clientstorepass" resource="client.jks"/>
 			</sec:trustManagers>
 		</http:tlsClientParameters>
 	</http:conduit>
