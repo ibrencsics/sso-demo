@@ -1,10 +1,13 @@
-package org.ib.sso.comm.sts.issue;
+package org.ib.sso.sts.issue;
+
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.security.auth.callback.Callback;
@@ -28,6 +31,19 @@ import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.ws.security.trust.claims.ClaimsCallback;
+import org.apache.ws.security.WSDocInfo;
+import org.apache.ws.security.WSSConfig;
+import org.apache.ws.security.WSSecurityEngineResult;
+import org.apache.ws.security.components.crypto.Crypto;
+import org.apache.ws.security.components.crypto.CryptoFactory;
+import org.apache.ws.security.handler.RequestData;
+import org.apache.ws.security.processor.Processor;
+import org.apache.ws.security.processor.SAMLTokenProcessor;
+import org.apache.ws.security.saml.SAMLKeyInfo;
+import org.apache.ws.security.saml.ext.AssertionWrapper;
+import org.apache.ws.security.saml.ext.OpenSAMLUtil;
+import org.apache.ws.security.util.DOM2Writer;
+import org.ib.sso.comm.lib.UsernamePasswordCallbackHandler;
 import org.junit.Test;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -37,6 +53,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 public class IssueTest {
+	
+	private static final org.apache.commons.logging.Log LOG = 
+	        org.apache.commons.logging.LogFactory.getLog(IssueTest.class);
 
 	private static final String SAML1_TOKEN_TYPE = 
 			"http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1";
@@ -100,7 +119,31 @@ public class IssueTest {
 		
 		try {
 			SecurityToken token = requestSecurityToken(SAML2_TOKEN_TYPE, PUBLIC_KEY_KEYTYPE, bus, DEFAULT_ADDRESS);
-			System.out.println(docToString(token.getToken()));
+			
+			List<WSSecurityEngineResult> results = processToken(token);
+			
+			assertTrue(results != null && results.size() == 1);
+	        AssertionWrapper assertion = (AssertionWrapper)results.get(0).get(WSSecurityEngineResult.TAG_SAML_ASSERTION);
+	        assertTrue(assertion != null);
+	        assertTrue(assertion.getSaml1() == null && assertion.getSaml2() != null);
+	        assertTrue(assertion.isSigned());
+	        
+	        List<String> methods = assertion.getConfirmationMethods();
+	        String confirmMethod = null;
+	        if (methods != null && methods.size() > 0) {
+	            confirmMethod = methods.get(0);
+	        }
+	        assertTrue(OpenSAMLUtil.isMethodHolderOfKey(confirmMethod));
+	        SAMLKeyInfo subjectKeyInfo = assertion.getSubjectKeyInfo();
+	        assertTrue(subjectKeyInfo.getCerts() != null);
+			 
+	        assertEquals(assertion.getSubjectKeyInfo().getCerts()[0].getSubjectDN().getName(), "CN=www.comm.com, OU=Comm, O=Comm, ST=Budapest, C=HU");
+	        assertEquals(assertion.getSignatureKeyInfo().getCerts()[0].getSubjectDN().getName(), "CN=www.sts.com, OU=STS, O=STS, ST=Budapest, C=HU");
+	        
+	        LOG.debug(DOM2Writer.nodeToString(assertion.getElement()));
+//	        System.out.println(assertion.getSubjectKeyInfo().getCerts()[0].getSubjectDN());
+//	        System.out.println(assertion.getSignatureKeyInfo().getCerts()[0].getSubjectDN());
+	        
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -147,7 +190,8 @@ public class IssueTest {
 		properties.put(SecurityConstants.USERNAME, "Libri");
 		properties.put(
 				SecurityConstants.CALLBACK_HANDLER, 
-				"org.ib.sso.comm.sts.common.CommonCallbackHandler"
+				getCallbackHandler()
+//				"org.ib.sso.comm.sts.common.CommonCallbackHandler"
 				);
 		properties.put(SecurityConstants.IS_BSP_COMPLIANT, "false");
 
@@ -171,6 +215,18 @@ public class IssueTest {
 		stsClient.setKeyType(keyType);
 		
 		return stsClient.requestSecurityToken(endpointAddress);
+	}
+	
+	private CallbackHandler getCallbackHandler() {
+		UsernamePasswordCallbackHandler cb = new UsernamePasswordCallbackHandler();
+		
+		Map<String,String> passwords = new HashMap<String, String>();
+		passwords.put("commkey", "commpass");
+		passwords.put("Libri", "dummypass");
+		
+		cb.setPasswords(passwords);
+		
+		return cb;
 	}
 	
 	private Element getClaimRequestDOM() {
@@ -262,4 +318,21 @@ public class IssueTest {
 		
 		return null;
 	}
+	
+	private List<WSSecurityEngineResult> processToken(SecurityToken token) throws Exception {
+        RequestData requestData = new RequestData();
+        WSSConfig wssConfig = WSSConfig.getNewInstance();
+        wssConfig.setWsiBSPCompliant(false);
+        requestData.setWssConfig(wssConfig);
+        CallbackHandler callbackHandler = getCallbackHandler();
+        requestData.setCallbackHandler(callbackHandler);
+        Crypto crypto = CryptoFactory.getInstance("sts.properties");
+        requestData.setDecCrypto(crypto);
+        requestData.setSigCrypto(crypto);
+        
+        Processor processor = new SAMLTokenProcessor();
+        return processor.handleToken(
+            token.getToken(), requestData, new WSDocInfo(token.getToken().getOwnerDocument())
+        );
+    }
 }

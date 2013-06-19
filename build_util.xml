@@ -204,6 +204,20 @@
             <arg value="mvn"/>
             <arg value="eclipse:eclipse"/>
 		</exec>
-	</target>	
+	</target>
+
+	<!-- System tests-->
+	
+	<property name="systest_project_dir" value="sso-demo-systest"/>
+	
+	<target name="systest STS IssueTest" description="systest STS IssueTest">
+		<exec executable="cmd" dir="${systest_project_dir}">
+			<arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-Dtest=org.ib.sso.sts.issue.IssueTest"/>
+            <arg value="test"/>
+		</exec>
+	</target>
 	
 </project>

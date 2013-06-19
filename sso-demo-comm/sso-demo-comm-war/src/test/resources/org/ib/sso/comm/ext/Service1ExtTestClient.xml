@@ -21,6 +21,8 @@
 	<util:map id="passwords">
 		<entry key="clientkey" value="clientkeypass" />
 	</util:map>
+	
+	<!-- HTTPS -->
 
 	<jaxws:client id="Service1ExtTransportClient"
 		serviceName="svc:Service1Service" 
@@ -47,6 +49,8 @@
 			</sec:trustManagers>
 		</http:tlsClientParameters>
 	</http:conduit>
+
+	<!-- WS-Security -->
 
 	<jaxws:client id="Service1ExtAsymmetricClient"
 		serviceName="svc:Service1Service" 
