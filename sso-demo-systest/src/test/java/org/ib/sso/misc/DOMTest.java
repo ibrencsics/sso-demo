@@ -1,4 +1,4 @@
-package org.ib.sso.comm.sts.dom;
+package org.ib.sso.misc;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

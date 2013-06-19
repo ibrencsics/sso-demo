@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:cxf="http://cxf.apache.org/core" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:http="http://cxf.apache.org/transports/http/configuration"
 	xmlns:sec="http://cxf.apache.org/configuration/security"
-	xsi:schemaLocation="
-        http://cxf.apache.org/core                   	http://cxf.apache.org/schemas/core.xsd
-        http://cxf.apache.org/jaxws                  	http://cxf.apache.org/schemas/jaxws.xsd
-        http://www.springframework.org/schema/beans    	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/context  	http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://cxf.apache.org/transports/http/configuration
-        http://cxf.apache.org/schemas/configuration/http-conf.xsd
-        http://cxf.apache.org/configuration/security
-        http://cxf.apache.org/schemas/configuration/security.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 
@@ -24,6 +25,16 @@
 			<cxf:logging />
 		</cxf:features>
 	</cxf:bus>
+	
+	<bean id="usernamePasswordCallbackHandler" class="org.ib.sso.comm.lib.UsernamePasswordCallbackHandler" scope="prototype">
+		<property name="passwords" ref="passwords"/>
+	</bean>
+	
+	<util:map id="passwords">
+		<entry key="commkey" value="commpass" />
+		<entry key="Libri" value="dummypass" />
+		<entry key="BKV" value="dummypass" />
+	</util:map>
 
 <!-- 	<bean id="delegationCallbackHandler" -->
 <!-- 		class="org.apache.cxf.fediz.cxf.web.ThreadLocalCallbackHandler" /> -->
@@ -43,7 +54,7 @@
 			</entry>
 			<entry key="ws-security.cache.issued.token.in.endpoint" value="false" />
 			
-			<entry key="ws-security.callback-handler" value="org.ib.sso.comm.sts.common.CommonCallbackHandler"/>
+			<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
 			<entry key="ws-security.signature.properties" value="comm.properties"/>
 			<entry key="ws-security.signature.username" value="commkey"/>
            	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
@@ -62,8 +73,8 @@
 		<property name="enableAppliesTo" value="true" />
 		<property name="properties">
 			<map>
-				<entry key="ws-security.username" value="Libri"/>
-				<entry key="ws-security.callback-handler" value="org.ib.sso.comm.sts.common.CommonCallbackHandler"/>
+				<entry key="ws-security.username" value="BKV"/>
+				<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
 				<entry key="ws-security.sts.token.username" value="commkey"/>
 				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
 				<entry key="ws-security.sts.token.usecert" value="true"/>

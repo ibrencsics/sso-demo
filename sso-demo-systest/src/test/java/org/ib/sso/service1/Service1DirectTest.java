@@ -1,4 +1,4 @@
-package org.ib.sso.comm.sts.service1;
+package org.ib.sso.service1;
 
 import org.ib.sso.service.service1.Service1Endpoint;
 import org.ib.sso.xsd.TestRequestType;
@@ -7,13 +7,13 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Service1Test {
+public class Service1DirectTest {
 
 	private ApplicationContext ctx;
 	
 	public ApplicationContext getContext() {
 		if (ctx==null) {
-			ctx = new ClassPathXmlApplicationContext("classpath:org/ib/sso/comm/sts/service1/cxf-client.xml");
+			ctx = new ClassPathXmlApplicationContext("classpath:org/ib/sso/service1/cxf-client.xml");
 		}
         return ctx;
     }

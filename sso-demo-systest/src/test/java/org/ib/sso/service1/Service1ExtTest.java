@@ -1,4 +1,4 @@
-package org.ib.sso.comm.ext;
+package org.ib.sso.service1;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -14,7 +14,7 @@ public class Service1ExtTest {
 	
 	public ApplicationContext getContext() {
 		if (ctx==null) {
-			ctx = new ClassPathXmlApplicationContext("classpath:org/ib/sso/comm/ext/Service1ExtTestClient.xml");
+			ctx = new ClassPathXmlApplicationContext("classpath:org/ib/sso/service1/Service1ExtTestClient.xml");
 		}
         return ctx;
     }

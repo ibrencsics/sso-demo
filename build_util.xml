@@ -126,16 +126,6 @@
 		</exec>
 	</target>
 	
-	<target name="comm service test Service1Test" description="comm service test Service1Test">
-		<exec executable="cmd" dir="${comm_service_project_dir}">
-			<arg value="/c"/>
-            <arg value="call"/>
-            <arg value="mvn"/>
-            <arg value="-Dtest=org.ib.sso.comm.sts.service1.Service1Test#callTest"/>
-            <arg value="test"/>
-		</exec>
-	</target>
-	
 	<!-- Comm Module WAR -->
 	
 	<property name="comm_module_archive_name" value="sso-demo-comm-war"/>
@@ -153,17 +143,6 @@
             <!--arg value="-o"/-->
         </exec>
     </target>
-	
-	<target name="comm module test Service1ExtTest" description="comm module test Service1ExtTest">
-		<exec executable="cmd" dir="${comm_module_project_dir}">
-			<arg value="/c"/>
-            <arg value="call"/>
-            <arg value="mvn"/>
-            <arg value="-Dtest=org.ib.sso.comm.ext.Service1ExtTest"/>
-			<!--arg value="-Djavax.net.debug=all"/-->
-            <arg value="test"/>
-		</exec>
-	</target>
 	
 	<target name="comm module clean redeploy" description="comm module clean redeploy">
         <exec executable="cmd" dir="${comm_module_project_dir}">
@@ -216,6 +195,26 @@
             <arg value="call"/>
             <arg value="mvn"/>
             <arg value="-Dtest=org.ib.sso.sts.issue.IssueTest"/>
+            <arg value="test"/>
+		</exec>
+	</target>
+	
+	<target name="systest Service1 Direct" description="systest Service1 Direct">
+		<exec executable="cmd" dir="${systest_project_dir}">
+			<arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-Dtest=org.ib.sso.service1.Service1DirectTest"/>
+            <arg value="test"/>
+		</exec>
+	</target>
+	
+	<target name="systest Service1 Ext" description="systest Service1 Ext">
+		<exec executable="cmd" dir="${systest_project_dir}">
+			<arg value="/c"/>
+            <arg value="call"/>
+            <arg value="mvn"/>
+            <arg value="-Dtest=org.ib.sso.service1.Service1ExtTest"/>
             <arg value="test"/>
 		</exec>
 	</target>
