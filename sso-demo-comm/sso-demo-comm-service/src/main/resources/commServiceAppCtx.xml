@@ -100,7 +100,7 @@
 	<http:conduit name="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}Transport_Port.http-conduit">
 		<http:tlsClientParameters disableCNCheck="true">
 			<sec:trustManagers>
-				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />
+				<sec:keyStore type="jks" password="commstorepass" resource="comm.jks" />
 			</sec:trustManagers>
 		</http:tlsClientParameters>
 	</http:conduit>
@@ -108,7 +108,7 @@
 	<http:conduit name="https://localhost:9443/.*">
 		<http:tlsClientParameters disableCNCheck="true">
 			<sec:trustManagers>
-				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />
+				<sec:keyStore type="jks" password="commstorepass" resource="comm.jks" />
 			</sec:trustManagers>
 		</http:tlsClientParameters>
 	</http:conduit>
@@ -117,7 +117,7 @@
 		name="{http://sso.ib.org/service/service1/}Service1Port.http-conduit">
 		<http:tlsClientParameters disableCNCheck="true">
 			<sec:trustManagers>
-				<sec:keyStore type="jks" password="commpass" resource="comm.jks" />
+				<sec:keyStore type="jks" password="commstorepass" resource="comm.jks" />
 			</sec:trustManagers>
 		</http:tlsClientParameters>
 	</http:conduit>
