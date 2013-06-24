@@ -60,4 +60,17 @@
 		</jaxws:properties>
 	</jaxws:endpoint>
 	
+	<jaxws:endpoint id="symmetricSTS" implementor="#transportSTSProviderBean"
+		address="/STSSymmetricService" wsdlLocation="/WEB-INF/wsdl/ws-trust-1.4-service.wsdl"
+		xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
+		serviceName="ns1:SecurityTokenService" endpointName="ns1:SymmetricUT_Port">
+		<jaxws:properties>
+			<entry key="ws-security.ut.validator" value-ref="sqlTokenValidator"/>
+            
+            <entry key="ws-security.callback-handler" value="org.ib.sso.sts.PasswordCallbackHandler"/>
+            <entry key="ws-security.signature.properties" value="sts.properties" />
+            <entry key="ws-security.signature.username" value="stskey" />
+		</jaxws:properties>
+	</jaxws:endpoint>
+	
 </beans>

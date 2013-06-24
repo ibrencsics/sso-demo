@@ -102,7 +102,6 @@
 		<property name="signatureUsername" value="stskey" />
 		
 		<property name="callbackHandlerClass" value="org.ib.sso.sts.PasswordCallbackHandler" />
-
 <!-- 		<property name="encryptionPropertiesFile" value="stsKeystore.properties" /> -->
 <!-- 		<property name="encryptionUsername" value="myservicekey" /> -->
 
