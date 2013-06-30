@@ -50,6 +50,21 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 	private final boolean stopHere = false;
 	private final boolean auto = true;
 	
+	enum StsClientType {
+		HTTPS("stsClient"), WSSEC("stsClientWsSec");
+	
+		private String id;
+		
+		StsClientType(String id) {
+			this.id = id;
+		}
+		
+		String getId() {
+			return this.id;
+		}
+	}
+	private final StsClientType stsClientType = StsClientType.HTTPS;
+	
 	public TestResponseType testOperation(TestRequestType request) {
 		
 		TestResponseType response=null;
@@ -64,8 +79,14 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 		
 		String callerDN = x509Data.getPrincipalName();
 		
-		STSClient stsClient = (STSClient) appCtx.getBean("stsClient");
-		stsClient.getProperties().put("ws-security.username", DNParser.getCN(callerDN));
+		
+		LOG.info("1++++++++++++++++++++++++++++++++++++++++++++++++++");
+		
+		LOG.info("Using the STSClient '" + stsClientType.getId() + "'");
+		STSClient stsClient = (STSClient) appCtx.getBean(/*"stsClient"*/ stsClientType.getId());
+		String callerCN = DNParser.getCN(callerDN);
+		stsClient.getProperties().put("ws-security.username", callerCN);
+		LOG.info("UsernameToken.username set to " + callerCN);
 		
 		Service1Endpoint service1=null;
 		
@@ -96,9 +117,9 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 			try {
 				SAMLData samlData = WebServiceContextTool.getSamlData(service1);
 		
-				System.out.println("******************** TOKEN ********************");
-				System.out.println(samlData.getTokenAsString());
-				System.out.println("******************** TOKEN ********************");
+				LOG.debug("******************** TOKEN ********************");
+				LOG.debug(samlData.getTokenAsString());
+				LOG.debug("******************** TOKEN ********************");
 			} catch (CommLibException ex) {
 				ex.printStackTrace();
 				// TODO: throw web service exception

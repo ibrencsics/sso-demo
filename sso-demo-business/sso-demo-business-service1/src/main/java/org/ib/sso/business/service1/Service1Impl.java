@@ -28,12 +28,12 @@ public class Service1Impl implements Service1Endpoint {
 		try {
 			SAMLData samlData = SAMLData.newInstance(context);
 			
-			LOG.info("Principal: " + samlData.getUserPrincipal().getName());
-			LOG.info("Roles: " + samlData.getUserRoles());
-			LOG.info("Issuer: " + samlData.getIssuer());
-			LOG.info("Subject: " + samlData.getSubject());
-			LOG.info("Token: ");
-			LOG.info(samlData.getTokenAsString());
+			LOG.debug("Principal: " + samlData.getUserPrincipal().getName());
+			LOG.debug("Roles: " + samlData.getUserRoles());
+			LOG.debug("Issuer: " + samlData.getIssuer());
+			LOG.debug("Subject: " + samlData.getSubject());
+			LOG.debug("Token: ");
+			LOG.debug(samlData.getTokenAsString());
 			
 			response.getNode().add("Service1: Successfully called by user " + samlData.getUserPrincipal().getName());
 			
