@@ -58,12 +58,12 @@
             <version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>${commons.logging.version}</version>
-            <scope>test</scope>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>commons-logging</groupId> -->
+<!--             <artifactId>commons-logging</artifactId> -->
+<!--             <version>${commons.logging.version}</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
         
         <dependency>
 			<groupId>junit</groupId>

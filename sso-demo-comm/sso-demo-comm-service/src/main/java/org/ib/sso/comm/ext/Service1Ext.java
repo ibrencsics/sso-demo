@@ -65,28 +65,31 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 	}
 	private final StsClientType stsClientType = StsClientType.HTTPS;
 	
+	
 	public TestResponseType testOperation(TestRequestType request) {
-		
+	
 		TestResponseType response=null;
 		
 		X509Data x509Data=null;
 		try {
 			x509Data = WebServiceContextTool.getX509Data(wsCtx);
 		} catch (CommLibException ex) {
-			ex.printStackTrace();
-			// TODO: throw web service exception
+			LOG.error("COMM (service) >>> " + ex.getMessage());
+			LOG.error(ex.fillInStackTrace().toString());
+			
+			// TODO: SOAP fault
+			return null;
 		}
 		
 		String callerDN = x509Data.getPrincipalName();
+		LOG.debug("COMM (service) >>> Service1Ext called by " + callerDN);
 		
-		
-		LOG.info("1++++++++++++++++++++++++++++++++++++++++++++++++++");
-		
-		LOG.info("Using the STSClient '" + stsClientType.getId() + "'");
+		LOG.debug("COMM (service) >>> STSClient '" + stsClientType.getId() + "' will be used");
 		STSClient stsClient = (STSClient) appCtx.getBean(/*"stsClient"*/ stsClientType.getId());
+		
 		String callerCN = DNParser.getCN(callerDN);
 		stsClient.getProperties().put("ws-security.username", callerCN);
-		LOG.info("UsernameToken.username set to " + callerCN);
+		LOG.debug("COMM (service) >>> STSClient: UsernameToken.username set to " + callerCN);
 		
 		Service1Endpoint service1=null;
 		
@@ -112,14 +115,16 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 		
 		if (!stopHere) {
 		
+			LOG.debug("COMM (service) >>> Service1 call started");
 			response = service1.testOperation(request);
+			LOG.debug("COMM (service) >>> Service1 call ended");
 	
 			try {
 				SAMLData samlData = WebServiceContextTool.getSamlData(service1);
 		
-				LOG.debug("******************** TOKEN ********************");
-				LOG.debug(samlData.getTokenAsString());
-				LOG.debug("******************** TOKEN ********************");
+				LOG.debug("COMM (service) >>> ******************** TOKEN ********************");
+				LOG.debug("COMM (service) >>> " + samlData.getTokenAsString());
+				LOG.debug("COMM (service) >>> ******************** TOKEN ********************");
 			} catch (CommLibException ex) {
 				ex.printStackTrace();
 				// TODO: throw web service exception

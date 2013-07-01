@@ -32,6 +32,8 @@ public class WebServiceContextTool {
 		if (wsCtx.getUserPrincipal() instanceof X500Principal) {
 			X500Principal x500Principal = (X500Principal) wsCtx.getUserPrincipal();
 			x509Data.setPrincipal(x500Principal);
+		} else {
+			throw new CommLibException("No client X.509 certificate was received");
 		}
 		
 		// this is not used now
@@ -45,9 +47,9 @@ public class WebServiceContextTool {
 			else if (secCtx instanceof WSS4JInInterceptor) {
 				WSS4JInInterceptor wss4jCtx = (WSS4JInInterceptor) secCtx;
 			}
-			LOG.info("secCtx: " + secCtx.getClass());
+			LOG.debug("COMM (lib) >>> SecurityContext class: " + secCtx.getClass());
 		} else {
-			LOG.info("secCtx is null");
+			LOG.debug("COMM (lib) >>> SecurityContext is null");
 		}
 		
 		return x509Data;
