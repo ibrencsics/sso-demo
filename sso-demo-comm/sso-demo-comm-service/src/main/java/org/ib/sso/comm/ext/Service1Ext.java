@@ -10,11 +10,14 @@ import javax.xml.ws.WebServiceContext;
 
 import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
+import org.ib.sso.comm.CommException;
 import org.ib.sso.comm.lib.CommLibException;
 import org.ib.sso.comm.lib.security.SAMLData;
 import org.ib.sso.comm.lib.security.WebServiceContextTool;
 import org.ib.sso.comm.lib.security.X509Data;
 import org.ib.sso.service.service1.Service1Endpoint;
+import org.ib.sso.service.service1.TestOperationFault;
+import org.ib.sso.xsd.TestFaultType;
 import org.ib.sso.xsd.TestRequestType;
 import org.ib.sso.xsd.TestResponseType;
 import org.slf4j.Logger;
@@ -66,8 +69,8 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 	private final StsClientType stsClientType = StsClientType.HTTPS;
 	
 	
-	public TestResponseType testOperation(TestRequestType request) {
-	
+	public TestResponseType testOperation(TestRequestType request) throws TestOperationFault {
+		
 		TestResponseType response=null;
 		
 		X509Data x509Data=null;
@@ -77,8 +80,10 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 			LOG.error("COMM (service) >>> " + ex.getMessage());
 			LOG.error(ex.fillInStackTrace().toString());
 			
-			// TODO: SOAP fault
-			return null;
+			TestFaultType testFaultType = new TestFaultType();
+			testFaultType.setType("Security");
+			testFaultType.setDescription(ex.getMessage());
+			throw new TestOperationFault(ex.getMessage(), testFaultType);
 		}
 		
 		String callerDN = x509Data.getPrincipalName();

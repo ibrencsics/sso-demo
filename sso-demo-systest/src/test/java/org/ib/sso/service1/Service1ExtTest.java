@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.ib.sso.service.service1.Service1Endpoint;
+import org.ib.sso.service.service1.TestOperationFault;
 import org.ib.sso.xsd.TestRequestType;
 import org.ib.sso.xsd.TestResponseType;
 import org.junit.Test;
@@ -30,8 +31,14 @@ public class Service1ExtTest {
 		Service1Endpoint service = (Service1Endpoint) getContext().getBean("Service1ExtTransportClient");
 		TestRequestType request = new TestRequestType();
 		request.setMessageId("12");
-		TestResponseType response = service.testOperation(request);
-		LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
+		TestResponseType response;
+		try {
+			response = service.testOperation(request);
+			LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
+		} catch (TestOperationFault e) {
+			LOG.error(e.getMessage());
+			LOG.error(e.getFaultInfo().getType() + " / " + e.getFaultInfo().getDescription());
+		}
 	}
 	
 	@Test
@@ -40,7 +47,12 @@ public class Service1ExtTest {
 		Service1Endpoint service = (Service1Endpoint) getContext().getBean("Service1ExtAsymmetricClient");
 		TestRequestType request = new TestRequestType();
 		request.setMessageId("13");
-		TestResponseType response = service.testOperation(request);
-		LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
+		TestResponseType response;
+		try {
+			response = service.testOperation(request);
+			LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
+		} catch (TestOperationFault e) {
+			e.printStackTrace();
+		}
 	}
 }

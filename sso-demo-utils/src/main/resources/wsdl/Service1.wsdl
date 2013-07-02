@@ -12,18 +12,22 @@
 	
 	<wsdl:import namespace="http://sso.ib.org/xsd" location="../xsd/Messages.xsd"></wsdl:import>
 
-	<wsdl:message name="TestOperationRequest">
+    <wsdl:message name="TestOperationRequest">
 		<wsdl:part element="msg:TestRequest" name="request" />
 	</wsdl:message>
 	<wsdl:message name="TestOperationResponse">
 		<wsdl:part element="msg:TestResponse" name="response" />
 	</wsdl:message>
-	
+	<wsdl:message name="TestOperationFault">
+		<wsdl:part name="fault" element="msg:TestFault"></wsdl:part>
+	</wsdl:message>
+
 	<wsdl:portType name="Service1Endpoint">
 		<wsdl:operation name="TestOperation">
 			<wsdl:input message="tns:TestOperationRequest" />
 			<wsdl:output message="tns:TestOperationResponse" />
-		</wsdl:operation>
+            <wsdl:fault name="fault" message="tns:TestOperationFault"></wsdl:fault>
+        </wsdl:operation>
 	</wsdl:portType>
 	
 	<wsdl:binding name="Service1Binding" type="tns:Service1Endpoint">
