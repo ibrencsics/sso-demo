@@ -10,9 +10,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>sso-demo-comm-lib</artifactId>
-    <name>SSO Demo Communication Module Library to be included in the Business Modules</name>
+    <name>SSO Demo Communication Module Library</name>
 	<packaging>jar</packaging>
-
+	<description>SSO Demo Communication Module Library to be included in the Business Modules</description>
+	
     <dependencies>
     	<dependency>
     		<groupId>org.ib</groupId>

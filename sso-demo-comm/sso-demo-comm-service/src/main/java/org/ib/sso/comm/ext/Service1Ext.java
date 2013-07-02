@@ -8,7 +8,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.ws.WebServiceContext;
 
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.endpoint.Endpoint;
+import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.tokenstore.SecurityToken;
+import org.apache.cxf.ws.security.tokenstore.TokenStore;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.ib.sso.comm.CommException;
 import org.ib.sso.comm.lib.CommLibException;
@@ -54,19 +58,25 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 	private final boolean auto = true;
 	
 	enum StsClientType {
-		HTTPS("stsClient"), WSSEC("stsClientWsSec");
+		HTTPS("stsClient", "Service1Client"), WSSEC("stsClientWsSec", "Service1ClientWsSec");
 	
 		private String id;
+		private String serviceId;
 		
-		StsClientType(String id) {
+		StsClientType(String id, String serviceId) {
 			this.id = id;
+			this.serviceId = serviceId;
 		}
 		
 		String getId() {
 			return this.id;
 		}
+
+		String getServiceId() {
+			return serviceId;
+		}
 	}
-	private final StsClientType stsClientType = StsClientType.HTTPS;
+	private final StsClientType stsClientType = StsClientType.WSSEC;
 	
 	
 	public TestResponseType testOperation(TestRequestType request) throws TestOperationFault {
@@ -99,7 +109,7 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 		Service1Endpoint service1=null;
 		
 		if (auto) {
-			service1 = (Service1Endpoint) appCtx.getBean("Service1Client");
+			service1 = (Service1Endpoint) appCtx.getBean(/*"Service1Client"*/stsClientType.getServiceId());
 		}
 		else {
 			service1 = (Service1Endpoint) appCtx.getBean("Service1ManualClient");
@@ -112,6 +122,13 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 			try {
 				SecurityToken token = stsClient.requestSecurityToken();
 				cb.setToken(token.getToken());
+				
+				Client client = ClientProxy.getClient(service1);
+				Endpoint ep = client.getEndpoint();
+				
+				TokenStore store = (TokenStore)ep.getEndpointInfo().getProperty(TokenStore.class.getName());
+				store.add(token.getId(), token);
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

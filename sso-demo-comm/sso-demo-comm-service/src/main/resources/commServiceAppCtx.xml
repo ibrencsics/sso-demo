@@ -76,6 +76,29 @@
 		</jaxws:properties>
 	</jaxws:client>
 	
+	<jaxws:client id="Service1ClientWsSec" 
+		serviceName="svc:Service1Service"
+		endpointName="svc:Service1Port"
+		xmlns:svc="http://sso.ib.org/service/service1/"
+		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
+		address="http://localhost:10080/sso-demo-business-service1/Service1"
+		wsdlLocation="classpath:wsdl/Service1.wsdl">
+		
+		<jaxws:properties>
+			<entry key="ws-security.sts.client">
+				<ref bean="stsClientWsSec"/>
+			</entry>
+			<entry key="ws-security.cache.issued.token.in.endpoint" value="true" />
+			
+			<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+			<entry key="ws-security.signature.properties" value="comm.properties"/>
+			<entry key="ws-security.signature.username" value="commkey"/>
+           	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
+           	<entry key="ws-security.encryption.username" value="service1"/>
+		</jaxws:properties>
+
+	</jaxws:client>
+	
 	
 	<bean id="stsClient" class="org.apache.cxf.ws.security.trust.STSClient">
 		<constructor-arg ref="cxf" />
@@ -110,6 +133,9 @@
 				<entry key="ws-security.sts.token.username" value="commkey"/>
 				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
 				<entry key="ws-security.sts.token.usecert" value="true"/>
+				
+				<entry key="ws-security.encryption.properties" value="comm.properties" />
+                <entry key="ws-security.encryption.username" value="sts" />
 			</map>
 		</property>
 	</bean>
