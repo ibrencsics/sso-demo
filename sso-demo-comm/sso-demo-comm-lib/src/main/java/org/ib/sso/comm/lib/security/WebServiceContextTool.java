@@ -80,4 +80,28 @@ public class WebServiceContextTool {
 		
 		return samlData;
 	}
+	
+	public static SAMLData getSamlData(WebServiceContext wsCtx) throws CommLibException {
+		
+		if (wsCtx==null)
+			throw new CommLibException("WebServiceContext is null");
+		
+		MessageContext ctx = wsCtx.getMessageContext();
+		SecurityContext secCtx = (SecurityContext)ctx.get(SecurityContext.class.getName());
+		
+		if (secCtx instanceof SAMLSecurityContext) {
+        	SAMLSecurityContext samlCtx = (SAMLSecurityContext)secCtx;
+        	
+        	SAMLData samlData = new SAMLData();
+        	samlData.setToken(samlCtx.getAssertionElement());
+        	samlData.setUserPrincipal(samlCtx.getUserPrincipal());
+        	samlData.setUserRoles(samlCtx.getUserRoles());
+        	samlData.setIssuer(samlCtx.getIssuer());
+        	samlData.setSubject(samlCtx.getSubject());
+        	
+        	return samlData;
+		}
+		
+		throw new CommLibException("No SAMLSecurityContext found");
+	}
 }

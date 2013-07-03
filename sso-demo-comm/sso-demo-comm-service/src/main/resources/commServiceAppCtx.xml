@@ -21,11 +21,11 @@
 <!-- 	<context:component-scan base-package="org.apache.cxf.fediz.example" /> -->
 <!-- 	<context:annotation-config /> -->
 
-<!-- 	<cxf:bus> -->
-<!-- 		<cxf:features> -->
-<!-- 			<cxf:logging /> -->
-<!-- 		</cxf:features> -->
-<!-- 	</cxf:bus> -->
+	<cxf:bus>
+		<cxf:features>
+			<cxf:logging />
+		</cxf:features>
+	</cxf:bus>
 
 <!-- 	<bean id="delegationCallbackHandler" -->
 <!-- 		class="org.apache.cxf.fediz.cxf.web.ThreadLocalCallbackHandler" /> -->

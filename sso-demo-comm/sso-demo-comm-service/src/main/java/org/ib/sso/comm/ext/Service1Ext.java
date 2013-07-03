@@ -76,7 +76,7 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 			return serviceId;
 		}
 	}
-	private final StsClientType stsClientType = StsClientType.WSSEC;
+	private final StsClientType stsClientType = StsClientType.HTTPS;
 	
 	
 	public TestResponseType testOperation(TestRequestType request) throws TestOperationFault {
