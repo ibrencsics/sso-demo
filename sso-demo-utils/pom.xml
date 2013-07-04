@@ -35,6 +35,7 @@
 							<wsdlOptions>
 								<wsdlOption>
 									<wsdl>${basedir}/src/main/resources/wsdl/Service1.wsdl</wsdl>
+									<wsdl>${basedir}/src/main/resources/wsdl/Service2.wsdl</wsdl>
 								</wsdlOption>
 							</wsdlOptions>
 						</configuration>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:tns="http://sso.ib.org/service/service2/" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service2"
+	targetNamespace="http://sso.ib.org/service/service2/" xmlns:msg="http://sso.ib.org/xsd">
+	
+  	<wsdl:import namespace="http://sso.ib.org/xsd" location="../xsd/Messages.xsd"></wsdl:import>
+  
+  	<wsdl:message name="TestOperationRequest">
+		<wsdl:part element="msg:TestRequest" name="request" />
+	</wsdl:message>
+	<wsdl:message name="TestOperationResponse">
+		<wsdl:part element="msg:TestResponse" name="response" />
+	</wsdl:message>
+	<wsdl:message name="TestOperationFault">
+		<wsdl:part name="fault" element="msg:TestFault"></wsdl:part>
+	</wsdl:message>
+	
+	<wsdl:portType name="Service2Endpoint">
+		<wsdl:operation name="TestOperation">
+			<wsdl:input message="tns:TestOperationRequest" />
+			<wsdl:output message="tns:TestOperationResponse" />
+	           <wsdl:fault name="fault" message="tns:TestOperationFault"></wsdl:fault>
+	       </wsdl:operation>
+	</wsdl:portType>
+  
+  	<wsdl:binding name="Service2Binding" type="tns:Service2Endpoint">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="TestOperation">
+			<soap:operation soapAction="http://sso.ib.org/service/service2/TestOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	
+  	<wsdl:service name="Service2Service">
+		<wsdl:port binding="tns:Service2Binding" name="Service2Port">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+	
+</wsdl:definitions>

@@ -9,9 +9,9 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>sso-demo-business-service1</artifactId>
+	<artifactId>sso-demo-business-service2</artifactId>
 
-	<name>SSO Demo Service 1</name>
+	<name>SSO Demo Service 2</name>
 	<packaging>war</packaging>
 
 	<build>
@@ -29,7 +29,7 @@
                             <directory>../../sso-demo-utils/src/main/resources/wsdl</directory>
                             <targetPath>WEB-INF/wsdl</targetPath>
                             <includes>
-                                <include>Service1.wsdl</include>
+                                <include>Service2.wsdl</include>
                             </includes>
                         </resource>
                         <resource>
@@ -42,20 +42,9 @@
 					</webResources>
 				</configuration>
 			</plugin>
-			
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tomcat-maven-plugin</artifactId>
-				<version>1.1</version>
-				<configuration>
-					<server>myTomcat</server>
-					<url>http://localhost:10080/manager/text</url>
-					<path>/${project.build.finalName}</path>
-				</configuration>
-			</plugin>
 
 		</plugins>
-		<finalName>sso-demo-business-service1</finalName>
+		<finalName>sso-demo-business-service2</finalName>
 	</build>
 
 </project>
