@@ -51,6 +51,8 @@
 	</http:conduit>
 
 	<!-- WS-Security -->
+	
+	<bean id="debuggingInterceptor" class="org.ib.sso.service1.DebuggingInterceptor"/>
 
 	<jaxws:client id="Service1ExtAsymmetricClient"
 		serviceName="svc:Service1Service" 
@@ -66,6 +68,10 @@
 	        <entry key="ws-security.signature.properties" value="client.properties"/>
 	        <entry key="ws-security.encryption.username" value="comm"/>
 	    </jaxws:properties>
+	    
+<!-- 	    <jaxws:outInterceptors> -->
+<!-- 	    	<ref bean="debuggingInterceptor"/> -->
+<!-- 	    </jaxws:outInterceptors> -->
 	    
 	    <jaxws:features>
 	    	<cxf:logging/>

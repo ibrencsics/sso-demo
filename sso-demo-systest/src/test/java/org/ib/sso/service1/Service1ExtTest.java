@@ -1,10 +1,16 @@
 package org.ib.sso.service1;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.interceptor.Interceptor;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.ib.sso.service.service1.Service1Endpoint;
 import org.ib.sso.service.service1.TestOperationFault;
@@ -33,6 +39,7 @@ public class Service1ExtTest {
 		request.setMessageId("12");
 		TestResponseType response;
 		try {
+			logInterceptors(service);
 			response = service.testOperation(request);
 			LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
 		} catch (TestOperationFault e) {
@@ -49,10 +56,28 @@ public class Service1ExtTest {
 		request.setMessageId("13");
 		TestResponseType response;
 		try {
+			logInterceptors(service);
 			response = service.testOperation(request);
 			LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
 		} catch (TestOperationFault e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void logInterceptors(Object clientProxy) {
+		Client client = ClientProxy.getClient(clientProxy);
+		client.getOutInterceptors().add(new DebuggingInterceptor());
+		
+		for (Interceptor<? extends Message> outInterceptor : client.getOutInterceptors()) {
+			LOG.info("client out interceptor: " + outInterceptor.getClass().getName());
+		}
+		
+		for (Interceptor<? extends Message> outInterceptor : client.getEndpoint().getOutInterceptors()) {
+			LOG.info("endpoint out interceptor: " + outInterceptor.getClass().getName());
+		}
+		
+		for (Interceptor<? extends Message> outInterceptor : client.getBus().getOutInterceptors()) {
+			LOG.info("bus out interceptor: " + outInterceptor.getClass().getName());
 		}
 	}
 }
