@@ -2,13 +2,24 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	
 	<context:property-placeholder location="classpath:general-properties.xml" />
 	
 	<bean id="usernamePasswordCallbackHandler" class="org.ib.sso.comm.lib.UsernamePasswordCallbackHandler" scope="prototype">
 		<property name="passwords" ref="passwords"/>
 	</bean>
+	
+	<jaxws:client id="service2IntClient"
+		serviceName="svc:Service2Service"
+		endpointName="svc:Service2Port"
+		xmlns:svc="http://sso.ib.org/service/service2/"
+		serviceClass="org.ib.sso.service.service2.Service2Endpoint"
+		address="${COMM_SERVICE1_WEB_URL_HTTP}/${COMM_SERVICE2_WEB_CTX}"
+		wsdlLocation="classpath:wsdl/Service2.wsdl">
+	</jaxws:client>
 
 </beans>

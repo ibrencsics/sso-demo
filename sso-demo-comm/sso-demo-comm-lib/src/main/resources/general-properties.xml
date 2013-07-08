@@ -5,7 +5,7 @@
     <entry key="COMM_SERVICE1_ASYMMETRIC_WEB_CTX">Service1Asymmetric</entry>
     <entry key="COMM_SERVICE1_WEB_URL_HTTPS">https://localhost:10443/sso-demo-comm-war</entry>
     <entry key="COMM_SERVICE1_WEB_URL_HTTP">http://localhost:10080/sso-demo-comm-war</entry>
-<!--     <entry key=""></entry> -->
+    <entry key="COMM_SERVICE2_WEB_CTX">Service2</entry>
 <!--     <entry key=""></entry> -->
 <!--     <entry key=""></entry> -->
 <!--     <entry key=""></entry> -->

@@ -30,6 +30,7 @@
                             <targetPath>WEB-INF/wsdl</targetPath>
                             <includes>
                                 <include>Service1.wsdl</include>
+                                <include>Service2.wsdl</include>
                             </includes>
                         </resource>
                         <resource>

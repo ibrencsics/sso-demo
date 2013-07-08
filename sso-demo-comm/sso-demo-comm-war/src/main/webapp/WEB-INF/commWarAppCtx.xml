@@ -6,6 +6,8 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<import resource="classpath:commServiceAppCtx.xml"/>
+	
+	<!-- External services -->
 
 	<jaxws:endpoint id="service1ExtTransport"
 		implementor="org.ib.sso.comm.ext.Service1Ext"
@@ -33,6 +35,17 @@
 	        <entry key="ws-security.encryption.username" value="useReqSigCert"/>
 		</jaxws:properties>
 		
+	</jaxws:endpoint>
+	
+	<!-- Internal Services -->
+	
+	<jaxws:endpoint id="service2Int"
+		implementor="org.ib.sso.comm.in.Service2Int"
+		wsdlLocation="WEB-INF/wsdl/Service2.wsdl"
+		serviceName="svc:Service2Service"
+		endpointName="svc:Service2Port"
+		xmlns:svc="http://sso.ib.org/service/service2/"
+		address="/${COMM_SERVICE2_WEB_CTX}">
 	</jaxws:endpoint>
 	
 </beans>
