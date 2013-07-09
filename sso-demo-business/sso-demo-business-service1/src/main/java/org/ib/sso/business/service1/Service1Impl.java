@@ -8,20 +8,32 @@ import org.ib.sso.comm.lib.security.SAMLData;
 import org.ib.sso.comm.lib.security.WebServiceContextTool;
 import org.ib.sso.service.service1.Service1Endpoint;
 import org.ib.sso.service.service1.TestOperationFault;
+import org.ib.sso.service.service2.Service2Endpoint;
 import org.ib.sso.xsd.TestFaultType;
 import org.ib.sso.xsd.TestRequestType;
 import org.ib.sso.xsd.TestResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 
-public class Service1Impl implements Service1Endpoint {
+public class Service1Impl implements Service1Endpoint, ApplicationContextAware {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Service1Impl.class.getPackage().getName());
 	
 	@Resource
     WebServiceContext context;
+	
+	private ApplicationContext appCtx;
+	
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.appCtx = applicationContext;
+	}
 
+	
 	public TestResponseType testOperation(TestRequestType request) throws TestOperationFault {
 		LOG.debug("Service1.testOperation called");
 		
@@ -38,9 +50,23 @@ public class Service1Impl implements Service1Endpoint {
 			LOG.debug("Token: ");
 			LOG.debug(samlData.getTokenAsString());
 			
-			response.getNode().add("Service1: Successfully called by user " + samlData.getUserPrincipal().getName());
+			response.getNode().add("Service1 >>> Called by user " + samlData.getUserPrincipal().getName());
+			
+			// call Service2
+			response.getNode().add("Service1 >>> Calling Service2");
+			Service2Endpoint service2Client = (Service2Endpoint) appCtx.getBean("service2IntClient");
+			TestResponseType service2Response = service2Client.testOperation(request);
+			response.getNode().addAll(service2Response.getNode());
 			
 		} catch (CommLibException e) {
+			e.printStackTrace();
+			
+			TestFaultType testFaultType = new TestFaultType();
+			testFaultType.setType("Business");
+			testFaultType.setDescription(e.getMessage());
+			throw new TestOperationFault(e.getMessage(), testFaultType);
+			
+		} catch (org.ib.sso.service.service2.TestOperationFault e) {
 			e.printStackTrace();
 			
 			TestFaultType testFaultType = new TestFaultType();
@@ -51,5 +77,4 @@ public class Service1Impl implements Service1Endpoint {
 		
 		return response;
 	}
-
 }

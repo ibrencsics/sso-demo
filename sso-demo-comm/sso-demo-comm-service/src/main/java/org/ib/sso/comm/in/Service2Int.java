@@ -16,9 +16,12 @@ public class Service2Int implements Service2Endpoint {
 
 		LOG.debug("COMM >>> Service2Int.testOperation() called");
 		
-		TestResponseType response = MessageProcessor.createResponse(request);
+		TestResponseType response = new TestResponseType();
+		response.setMessageId(request.getMessageId());
 		
-		return null;
+		response.getNode().add("COMM >>> Service2 called");
+		
+		return response;
 	}
 
 }

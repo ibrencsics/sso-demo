@@ -81,7 +81,8 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 	
 	public TestResponseType testOperation(TestRequestType request) throws TestOperationFault {
 		
-		TestResponseType response=null;
+		TestResponseType allResults = new TestResponseType();
+		allResults.setMessageId(request.getMessageId());
 		
 		X509Data x509Data=null;
 		try {
@@ -135,6 +136,10 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 			}
 		}
 		
+		TestResponseType response=null;
+		
+		allResults.getNode().add("COMM >>> Calling Service1");
+		
 		if (!stopHere) {
 		
 			LOG.debug("COMM (service) >>> Service1 call started");
@@ -153,11 +158,14 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 			}
 		}
 		else {
+			response = new TestResponseType();
 			response.setMessageId("23");
 			response.getNode().add(DNParser.getCN(wsCtx.getUserPrincipal().getName()));
 		}
+		
+		allResults.getNode().addAll(response.getNode());
 			
-		return response;
+		return allResults;
 	}
 	
 	private Element getClaimRequestDOM() {

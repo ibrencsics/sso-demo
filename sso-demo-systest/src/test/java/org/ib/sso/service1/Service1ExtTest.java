@@ -39,9 +39,10 @@ public class Service1ExtTest {
 		request.setMessageId("12");
 		TestResponseType response;
 		try {
-			logInterceptors(service);
+//			logInterceptors(service);
 			response = service.testOperation(request);
-			LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
+//			LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
+			displayResponse(response);
 		} catch (TestOperationFault e) {
 			LOG.error(e.getMessage());
 			LOG.error(e.getFaultInfo().getType() + " / " + e.getFaultInfo().getDescription());
@@ -56,11 +57,19 @@ public class Service1ExtTest {
 		request.setMessageId("13");
 		TestResponseType response;
 		try {
-			logInterceptors(service);
+//			logInterceptors(service);
 			response = service.testOperation(request);
-			LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
+//			LOG.info("Received: " + response.getMessageId() + " / " + response.getNode());
+			displayResponse(response);
 		} catch (TestOperationFault e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void displayResponse(TestResponseType response) {
+		LOG.info("Received message ID: " + response.getMessageId());
+		for (String message : response.getNode()) {
+			LOG.info("  - " + message);
 		}
 	}
 	

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:commTools.xml"/>
+	
+	<!-- External services -->
+
+	<jaxws:endpoint id="service1ExtTransport"
+		implementor="org.ib.sso.comm.ext.Service1Ext"
+		wsdlLocation="classpath:wsdl/Service1.wsdl"
+		serviceName="svc:Service1Service" 
+		endpointName="svc:Service1ExtTransportPort"
+		xmlns:svc="http://sso.ib.org/service/service1/"
+		address="/${COMM_SERVICE1_TRANSPORT_WEB_CTX}">
+	</jaxws:endpoint>
+	
+	<jaxws:endpoint id="service1ExtAsymmetric"
+		implementor="org.ib.sso.comm.ext.Service1Ext"
+		wsdlLocation="classpath:wsdl/Service1.wsdl"
+		serviceName="svc:Service1Service" 
+		endpointName="svc:Service1ExtAsymmetricPort"
+		xmlns:svc="http://sso.ib.org/service/service1/"
+		address="/${COMM_SERVICE1_ASYMMETRIC_WEB_CTX}">
+		
+		<jaxws:properties>
+			<entry key="ws-security.signature.properties" value="comm.properties" />
+			<entry key="ws-security.signature.username" value="commkey"/>
+	        
+	        <entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+	        <entry key="ws-security.encryption.properties" value="comm.properties"/>
+	        <entry key="ws-security.encryption.username" value="useReqSigCert"/>
+		</jaxws:properties>
+		
+	</jaxws:endpoint>
+	
+	<!-- Internal Services -->
+	
+	<jaxws:endpoint id="service2Int"
+		implementor="org.ib.sso.comm.in.Service2Int"
+		wsdlLocation="classpath:wsdl/Service2.wsdl"
+		serviceName="svc:Service2Service"
+		endpointName="svc:Service2Port"
+		xmlns:svc="http://sso.ib.org/service/service2/"
+		address="/${COMM_SERVICE2_WEB_CTX}">
+	</jaxws:endpoint>
+	
+</beans>

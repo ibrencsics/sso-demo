@@ -106,7 +106,7 @@
 		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
 		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}TransportUT_Port" />
 					
-		<property name="enableAppliesTo" value="true" />
+		<property name="enableAppliesTo" value="false" />
 		<property name="properties">
 			<map>
 				<entry key="ws-security.username" value="Libri"/>
@@ -115,6 +115,7 @@
 				<entry key="ws-security.sts.token.username" value="commkey"/>
 				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
 				<entry key="ws-security.sts.token.usecert" value="true"/>
+<!-- 				<entry key="ws-security.sts.applies-to" value=""/> -->
 			</map>
 		</property>
 	</bean>
