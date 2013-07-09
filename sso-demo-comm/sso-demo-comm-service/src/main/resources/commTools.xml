@@ -31,6 +31,9 @@
 <!-- 		class="org.apache.cxf.fediz.cxf.web.ThreadLocalCallbackHandler" /> -->
 
 <!-- 	address="https://localhost:10443/sso-demo-business-service1/Service1" -->
+
+
+	<!-- Service 1 -->
 	
 	<jaxws:client id="Service1Client" 
 		serviceName="svc:Service1Service"
@@ -99,6 +102,18 @@
 
 	</jaxws:client>
 	
+	<!-- Service 2 -->
+	
+	<jaxws:client id="service2Client"
+		serviceName="svc:Service2Service"
+		endpointName="svc:Service2Port"
+		xmlns:svc="http://sso.ib.org/service/service2/"
+		serviceClass="org.ib.sso.service.service2.Service2Endpoint"
+		address="http://localhost:10080/sso-demo-business-service2/Service2"
+		wsdlLocation="classpath:wsdl/Service2.wsdl">
+	</jaxws:client>
+	
+	<!-- STSClient -->
 	
 	<bean id="stsClient" class="org.apache.cxf.ws.security.trust.STSClient">
 		<constructor-arg ref="cxf" />
@@ -141,6 +156,7 @@
 		</property>
 	</bean>
 
+	<!-- Conduits -->
 
 	<http:conduit name="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}Transport_Port.http-conduit">
 		<http:tlsClientParameters disableCNCheck="true">

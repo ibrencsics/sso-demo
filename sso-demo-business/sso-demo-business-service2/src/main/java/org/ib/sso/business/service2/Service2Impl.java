@@ -8,7 +8,13 @@ import org.ib.sso.xsd.TestResponseType;
 public class Service2Impl implements Service2Endpoint {
 
 	public TestResponseType testOperation(TestRequestType request) throws TestOperationFault {
-		return null;
+		
+		TestResponseType response = new TestResponseType();
+		response.setMessageId(request.getMessageId());
+		
+		response.getNode().add("Service2 >>> Called");
+		
+		return response;
 	}
 
 }
