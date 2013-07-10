@@ -31,7 +31,9 @@
 			<entry key="ws-security.signature.username" value="service1key"/>
 	        
 	        <entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+
 	        <entry key="ws-security.encryption.properties" value="service1.properties"/>
+	        <entry key="ws-security.encryption.username" value="useReqSigCert"/>
 		</jaxws:properties>
 		
 	</jaxws:endpoint>

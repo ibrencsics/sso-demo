@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:tns="http://sso.ib.org/service/service1/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://sso.ib.org/service/service1/" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service1"
 	xmlns:wsp="http://www.w3.org/ns/ws-policy"
     xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
@@ -173,8 +174,8 @@
 					<wsp:Policy>
 						<sp:InitiatorToken>
 							<wsp:Policy>
-								<sp:IssuedToken
-									sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+<!-- 								<sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient"> -->
+								<sp:SamlToken>
 									<sp:RequestSecurityTokenTemplate>
 										<t:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</t:TokenType>
 										<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey</t:KeyType>
@@ -190,7 +191,8 @@
 										<wsaw:Address>https://localhost:9443/sso-demo-security-sts/STSService
 										</wsaw:Address>
 									</sp:Issuer>
-								</sp:IssuedToken>
+<!-- 								</sp:IssuedToken> -->
+								</sp:SamlToken>
 							</wsp:Policy>
 						</sp:InitiatorToken>
 						<sp:RecipientToken>

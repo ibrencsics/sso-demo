@@ -46,6 +46,16 @@
 		endpointName="svc:Service2Port"
 		xmlns:svc="http://sso.ib.org/service/service2/"
 		address="/${COMM_SERVICE2_WEB_CTX}">
+		
+		<jaxws:properties>
+			<entry key="ws-security.signature.properties" value="comm.properties" />
+			<entry key="ws-security.signature.username" value="commkey"/>
+	        
+	        <entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+	        
+	        <entry key="ws-security.encryption.properties" value="comm.properties"/>
+<!-- 	        <entry key="ws-security.encryption.username" value="useReqSigCert"/> -->
+		</jaxws:properties>
 	</jaxws:endpoint>
 	
 </beans>

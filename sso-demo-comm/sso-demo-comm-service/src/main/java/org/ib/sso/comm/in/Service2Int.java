@@ -21,6 +21,8 @@ public class Service2Int implements Service2Endpoint, ApplicationContextAware {
 		this.appCtx = applicationContext;
 	}
 	
+	private final boolean stopHere = true;
+	
 	public TestResponseType testOperation(TestRequestType request)	throws TestOperationFault {
 
 		LOG.debug("COMM >>> Service2Int.testOperation() called");
@@ -29,6 +31,11 @@ public class Service2Int implements Service2Endpoint, ApplicationContextAware {
 		response.setMessageId(request.getMessageId());
 		
 		response.getNode().add("COMM >>> Internal Service2 called");
+		
+		if (stopHere) {
+			return response;
+		}
+		
 		
 		// call Service2
 		

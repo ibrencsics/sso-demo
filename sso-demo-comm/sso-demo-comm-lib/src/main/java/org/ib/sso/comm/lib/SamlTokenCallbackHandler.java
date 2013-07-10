@@ -1,4 +1,4 @@
-package org.ib.sso.comm.ext;
+package org.ib.sso.comm.lib;
 
 import java.io.IOException;
 

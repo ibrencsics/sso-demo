@@ -45,7 +45,7 @@
 		
 		<jaxws:properties>
 			<entry key="ws-security.sts.client">
-				<ref bean="stsClient"/>
+				<ref bean="stsClientTransport"/>
 			</entry>
 			<entry key="ws-security.cache.issued.token.in.endpoint" value="true" />
 			
@@ -54,28 +54,6 @@
 			<entry key="ws-security.signature.username" value="commkey"/>
            	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
            	<entry key="ws-security.encryption.username" value="service1"/>
-		</jaxws:properties>
-	</jaxws:client>
-	
-	<bean id="samlTokenCallbackHandler" class="org.ib.sso.comm.ext.SamlTokenCallbackHandler"/>
-	
-	<jaxws:client id="Service1ManualClient"
-		serviceName="svc:Service1Service"
-		endpointName="svc:Service1Port"
-		xmlns:svc="http://sso.ib.org/service/service1/"
-		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
-		address="http://localhost:10080/sso-demo-business-service1/Service1"
-		wsdlLocation="classpath:wsdl/Service1.wsdl">
-		
-		<jaxws:properties>
-			<entry key="ws-security.cache.issued.token.in.endpoint" value="true" />
-			
-			<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
-			<entry key="ws-security.signature.properties" value="comm.properties"/>
-			<entry key="ws-security.signature.username" value="commkey"/>
-           	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
-           	<entry key="ws-security.encryption.username" value="service1"/>
-           	<entry key="ws-security.saml-callback-handler" value-ref="samlTokenCallbackHandler"/>
 		</jaxws:properties>
 	</jaxws:client>
 	
@@ -99,7 +77,6 @@
            	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
            	<entry key="ws-security.encryption.username" value="service1"/>
 		</jaxws:properties>
-
 	</jaxws:client>
 	
 	<!-- Service 2 -->
@@ -111,50 +88,21 @@
 		serviceClass="org.ib.sso.service.service2.Service2Endpoint"
 		address="http://localhost:10080/sso-demo-business-service2/Service2"
 		wsdlLocation="classpath:wsdl/Service2.wsdl">
+		
+		<jaxws:properties>
+			<entry key="ws-security.sts.client">
+				<ref bean="stsClientTransport"/>
+			</entry>
+			<entry key="ws-security.cache.issued.token.in.endpoint" value="true" />
+			
+			<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+			<entry key="ws-security.signature.properties" value="comm.properties"/>
+			<entry key="ws-security.signature.username" value="commkey"/>
+           	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
+           	<entry key="ws-security.encryption.username" value="service2"/>
+		</jaxws:properties>
 	</jaxws:client>
 	
-	<!-- STSClient -->
-	
-	<bean id="stsClient" class="org.apache.cxf.ws.security.trust.STSClient">
-		<constructor-arg ref="cxf" />
-		<property name="wsdlLocation" value="https://localhost:9443/sso-demo-security-sts/STSService?wsdl" />
-		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
-		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}TransportUT_Port" />
-					
-		<property name="enableAppliesTo" value="false" />
-		<property name="properties">
-			<map>
-				<entry key="ws-security.username" value="Libri"/>
-<!-- 				<entry key="ws-security.callback-handler" value="org.ib.sso.comm.ext.CommonCallbackHandler"/> -->
-				<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
-				<entry key="ws-security.sts.token.username" value="commkey"/>
-				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
-				<entry key="ws-security.sts.token.usecert" value="true"/>
-<!-- 				<entry key="ws-security.sts.applies-to" value=""/> -->
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="stsClientWsSec" class="org.apache.cxf.ws.security.trust.STSClient">
-		<constructor-arg ref="cxf" />
-		<property name="wsdlLocation" value="http://localhost:9080/sso-demo-security-sts/STSSymmetricService?wsdl" />
-		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
-		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SymmetricUT_Port" />
-					
-		<property name="enableAppliesTo" value="true" />
-		<property name="properties">
-			<map>
-				<entry key="ws-security.username" value="Libri"/>
-				<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
-				<entry key="ws-security.sts.token.username" value="commkey"/>
-				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
-				<entry key="ws-security.sts.token.usecert" value="true"/>
-				
-				<entry key="ws-security.encryption.properties" value="comm.properties" />
-                <entry key="ws-security.encryption.username" value="sts" />
-			</map>
-		</property>
-	</bean>
 
 	<!-- Conduits -->
 
@@ -182,5 +130,29 @@
 			</sec:trustManagers>
 		</http:tlsClientParameters>
 	</http:conduit>
+	
+	<!-- Test -->
+	
+	<bean id="samlTokenCallbackHandler" class="org.ib.sso.comm.lib.SamlTokenCallbackHandler"/>
+	
+	<jaxws:client id="Service1ManualClient"
+		serviceName="svc:Service1Service"
+		endpointName="svc:Service1Port"
+		xmlns:svc="http://sso.ib.org/service/service1/"
+		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
+		address="http://localhost:10080/sso-demo-business-service1/Service1"
+		wsdlLocation="classpath:wsdl/Service1.wsdl">
+		
+		<jaxws:properties>
+			<entry key="ws-security.cache.issued.token.in.endpoint" value="true" />
+			
+			<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+			<entry key="ws-security.signature.properties" value="comm.properties"/>
+			<entry key="ws-security.signature.username" value="commkey"/>
+           	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
+           	<entry key="ws-security.encryption.username" value="service1"/>
+           	<entry key="ws-security.saml-callback-handler" value-ref="samlTokenCallbackHandler"/>
+		</jaxws:properties>
+	</jaxws:client>
 
 </beans>

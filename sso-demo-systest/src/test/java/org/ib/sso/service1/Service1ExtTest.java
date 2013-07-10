@@ -49,7 +49,7 @@ public class Service1ExtTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void callAsymmetricTest() {
 		
 		Service1Endpoint service = (Service1Endpoint) getContext().getBean("Service1ExtAsymmetricClient");

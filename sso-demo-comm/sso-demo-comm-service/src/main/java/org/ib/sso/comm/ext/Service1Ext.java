@@ -16,6 +16,7 @@ import org.apache.cxf.ws.security.tokenstore.TokenStore;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.ib.sso.comm.CommException;
 import org.ib.sso.comm.lib.CommLibException;
+import org.ib.sso.comm.lib.SamlTokenCallbackHandler;
 import org.ib.sso.comm.lib.security.SAMLData;
 import org.ib.sso.comm.lib.security.WebServiceContextTool;
 import org.ib.sso.comm.lib.security.X509Data;
@@ -42,6 +43,8 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 			"http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0";
 	private static final String PUBLIC_KEY_KEYTYPE = 
 			"http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey";
+	private static final String BEARER_KEYTYPE = 
+			"http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer";
 	
 	
 	@Resource
@@ -54,11 +57,8 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 		this.appCtx = applicationContext;
 	}
 
-	private final boolean stopHere = false;
-	private final boolean auto = true;
-	
 	enum StsClientType {
-		HTTPS("stsClient", "Service1Client"), WSSEC("stsClientWsSec", "Service1ClientWsSec");
+		HTTPS("stsClientTransport", "Service1Client"), WSSEC("stsClientWsSec", "Service1ClientWsSec");
 	
 		private String id;
 		private String serviceId;
@@ -76,6 +76,9 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 			return serviceId;
 		}
 	}
+	
+	private final boolean stopHere = false;
+	private final boolean auto = false;
 	private final StsClientType stsClientType = StsClientType.HTTPS;
 	
 	
@@ -110,9 +113,13 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 		Service1Endpoint service1=null;
 		
 		if (auto) {
+			LOG.debug("COMM (service) >>> IssuedToken policy");
+			
 			service1 = (Service1Endpoint) appCtx.getBean(/*"Service1Client"*/stsClientType.getServiceId());
 		}
 		else {
+			LOG.debug("COMM (service) >>> SamlToken policy");
+			
 			service1 = (Service1Endpoint) appCtx.getBean("Service1ManualClient");
 			
 			stsClient.setKeyType(PUBLIC_KEY_KEYTYPE);
@@ -124,11 +131,11 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 				SecurityToken token = stsClient.requestSecurityToken();
 				cb.setToken(token.getToken());
 				
-				Client client = ClientProxy.getClient(service1);
-				Endpoint ep = client.getEndpoint();
-				
-				TokenStore store = (TokenStore)ep.getEndpointInfo().getProperty(TokenStore.class.getName());
-				store.add(token.getId(), token);
+//				Client client = ClientProxy.getClient(service1);
+//				Endpoint ep = client.getEndpoint();
+//				
+//				TokenStore store = (TokenStore)ep.getEndpointInfo().getProperty(TokenStore.class.getName());
+//				store.add(token.getId(), token);
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -145,16 +152,17 @@ public class Service1Ext implements Service1Endpoint, ApplicationContextAware {
 			LOG.debug("COMM (service) >>> Service1 call started");
 			response = service1.testOperation(request);
 			LOG.debug("COMM (service) >>> Service1 call ended");
-	
-			try {
-				SAMLData samlData = WebServiceContextTool.getSamlData(service1);
-		
-				LOG.debug("COMM (service) >>> ******************** TOKEN ********************");
-				LOG.debug("COMM (service) >>> " + samlData.getTokenAsString());
-				LOG.debug("COMM (service) >>> ******************** TOKEN ********************");
-			} catch (CommLibException ex) {
-				ex.printStackTrace();
-				// TODO: throw web service exception
+			
+			if (auto) {
+				try {
+					SAMLData samlData = WebServiceContextTool.getSamlData(service1);
+			
+					LOG.debug("COMM (service) >>> ******************** TOKEN ********************");
+					LOG.debug("COMM (service) >>> " + samlData.getTokenAsString());
+					LOG.debug("COMM (service) >>> ******************** TOKEN ********************");
+				} catch (CommLibException ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 		else {

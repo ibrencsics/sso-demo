@@ -12,6 +12,10 @@
 	<bean id="usernamePasswordCallbackHandler" class="org.ib.sso.comm.lib.UsernamePasswordCallbackHandler" scope="prototype">
 		<property name="passwords" ref="passwords"/>
 	</bean>
+
+	<!-- Internal client to the Business Modules -->
+	
+	<bean id="samlTokenCallbackHandler" class="org.ib.sso.comm.lib.SamlTokenCallbackHandler"/>
 	
 	<jaxws:client id="service2IntClient"
 		serviceName="svc:Service2Service"
@@ -20,6 +24,85 @@
 		serviceClass="org.ib.sso.service.service2.Service2Endpoint"
 		address="${COMM_SERVICE1_WEB_URL_HTTP}/${COMM_SERVICE2_WEB_CTX}"
 		wsdlLocation="classpath:wsdl/Service2.wsdl">
+		
+		<jaxws:properties>
+<!-- 			<entry key="ws-security.sts.client"> -->
+<!-- 				<ref bean="stsClientWsSecService1"/> -->
+<!-- 			</entry> -->
+			<entry key="ws-security.cache.issued.token.in.endpoint" value="true" />
+			
+			<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+			<entry key="ws-security.signature.properties" value="service1.properties"/>
+			<entry key="ws-security.signature.username" value="service1key"/>
+           	<entry key="ws-security.encryption.properties" value="service1.properties"/> 
+           	<entry key="ws-security.encryption.username" value="comm"/>
+           	
+           	<entry key="ws-security.saml-callback-handler" value-ref="samlTokenCallbackHandler"/>
+		</jaxws:properties>
 	</jaxws:client>
+	
+	
+	<!-- STSClient -->
+	
+	<bean id="stsClientTransport" class="org.apache.cxf.ws.security.trust.STSClient">
+		<constructor-arg ref="cxf" />
+		<property name="wsdlLocation" value="https://localhost:9443/sso-demo-security-sts/STSService?wsdl" />
+		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}TransportUT_Port" />
+					
+		<property name="enableAppliesTo" value="false" />
+		<property name="properties">
+			<map>
+				<entry key="ws-security.username" value="Libri"/>
+				<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+				<entry key="ws-security.sts.token.username" value="commkey"/>
+				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
+				<entry key="ws-security.sts.token.usecert" value="true"/>
+<!-- 				<entry key="ws-security.sts.applies-to" value=""/> -->
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="stsClientWsSec" class="org.apache.cxf.ws.security.trust.STSClient">
+		<constructor-arg ref="cxf" />
+		<property name="wsdlLocation" value="http://localhost:9080/sso-demo-security-sts/STSSymmetricService?wsdl" />
+		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SymmetricUT_Port" />
+					
+		<property name="enableAppliesTo" value="false" />
+		<property name="properties">
+			<map>
+				<entry key="ws-security.username" value="Libri"/>
+				<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+				<entry key="ws-security.sts.token.username" value="commkey"/>
+				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
+				<entry key="ws-security.sts.token.usecert" value="true"/>
+				
+				<entry key="ws-security.encryption.properties" value="comm.properties" />
+                <entry key="ws-security.encryption.username" value="sts" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="stsClientWsSecService1" class="org.apache.cxf.ws.security.trust.STSClient">
+		<constructor-arg ref="cxf" />
+		<property name="wsdlLocation" value="http://localhost:9080/sso-demo-security-sts/STSSymmetricService?wsdl" />
+		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SymmetricUT_Port" />
+					
+		<property name="enableAppliesTo" value="false" />
+		<property name="properties">
+			<map>
+				<entry key="ws-security.username" value="Libri"/>
+				<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+				<entry key="ws-security.sts.token.username" value="service1key"/>
+				<entry key="ws-security.sts.token.properties" value="service1.properties"/>
+				<entry key="ws-security.sts.token.usecert" value="true"/>
+				
+				<entry key="ws-security.encryption.properties" value="service1.properties" />
+                <entry key="ws-security.encryption.username" value="sts" />
+			</map>
+		</property>
+	</bean>
 
 </beans>

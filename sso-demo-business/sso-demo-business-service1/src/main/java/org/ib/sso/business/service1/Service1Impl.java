@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.xml.ws.WebServiceContext;
 
 import org.ib.sso.comm.lib.CommLibException;
+import org.ib.sso.comm.lib.SamlTokenCallbackHandler;
 import org.ib.sso.comm.lib.security.SAMLData;
 import org.ib.sso.comm.lib.security.WebServiceContextTool;
 import org.ib.sso.service.service1.Service1Endpoint;
@@ -33,6 +34,7 @@ public class Service1Impl implements Service1Endpoint, ApplicationContextAware {
 		this.appCtx = applicationContext;
 	}
 
+	private final boolean stopHere = true;
 	
 	public TestResponseType testOperation(TestRequestType request) throws TestOperationFault {
 		LOG.debug("Service1.testOperation called");
@@ -52,7 +54,18 @@ public class Service1Impl implements Service1Endpoint, ApplicationContextAware {
 			
 			response.getNode().add("Service1 >>> Called by user " + samlData.getUserPrincipal().getName());
 			
+			if (stopHere) {
+				return response;
+			}
+			
+			
+			// set token
+			
+			SamlTokenCallbackHandler cb = (SamlTokenCallbackHandler) appCtx.getBean("samlTokenCallbackHandler");
+			cb.setToken(samlData.getToken());
+			
 			// call Service2
+			
 			response.getNode().add("Service1 >>> Calling Service2");
 			Service2Endpoint service2Client = (Service2Endpoint) appCtx.getBean("service2IntClient");
 			TestResponseType service2Response = service2Client.testOperation(request);
