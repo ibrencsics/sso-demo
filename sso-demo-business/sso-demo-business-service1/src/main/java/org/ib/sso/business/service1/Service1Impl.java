@@ -34,7 +34,7 @@ public class Service1Impl implements Service1Endpoint, ApplicationContextAware {
 		this.appCtx = applicationContext;
 	}
 
-	private final boolean stopHere = true;
+	private final boolean stopHere = false;
 	
 	public TestResponseType testOperation(TestRequestType request) throws TestOperationFault {
 		LOG.debug("Service1.testOperation called");

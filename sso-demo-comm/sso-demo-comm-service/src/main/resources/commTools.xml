@@ -16,8 +16,9 @@
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:passwords.xml"/>
+	<import resource="classpath:commSts.xml"/>
 	<import resource="classpath:comm-lib.xml"/>
-
+	
 <!-- 	<context:component-scan base-package="org.apache.cxf.fediz.example" /> -->
 <!-- 	<context:annotation-config /> -->
 
@@ -35,12 +36,12 @@
 
 	<!-- Service 1 -->
 	
-	<jaxws:client id="Service1Client" 
+	<jaxws:client id="Service1PublicKeyClient" 
 		serviceName="svc:Service1Service"
-		endpointName="svc:Service1Port"
+		endpointName="svc:Service1PublicKeyPort"
 		xmlns:svc="http://sso.ib.org/service/service1/"
 		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
-		address="http://localhost:10080/sso-demo-business-service1/Service1"
+		address="http://localhost:10080/sso-demo-business-service1/Service1PublicKey"
 		wsdlLocation="classpath:wsdl/Service1.wsdl">
 		
 		<jaxws:properties>
@@ -57,12 +58,12 @@
 		</jaxws:properties>
 	</jaxws:client>
 	
-	<jaxws:client id="Service1ClientWsSec" 
+	<jaxws:client id="Service1PublicKeyClientWsSec" 
 		serviceName="svc:Service1Service"
-		endpointName="svc:Service1Port"
+		endpointName="svc:Service1PublicKeyPort"
 		xmlns:svc="http://sso.ib.org/service/service1/"
 		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
-		address="http://localhost:10080/sso-demo-business-service1/Service1"
+		address="http://localhost:10080/sso-demo-business-service1/Service1PublicKey"
 		wsdlLocation="classpath:wsdl/Service1.wsdl">
 		
 		<jaxws:properties>
@@ -123,7 +124,7 @@
 	</http:conduit>
 
 	<http:conduit
-		name="{http://sso.ib.org/service/service1/}Service1Port.http-conduit">
+		name="{http://sso.ib.org/service/service1/}Service1PublicKeyPort.http-conduit">
 		<http:tlsClientParameters disableCNCheck="true">
 			<sec:trustManagers>
 				<sec:keyStore type="jks" password="commstorepass" resource="comm.jks" />
@@ -135,12 +136,12 @@
 	
 	<bean id="samlTokenCallbackHandler" class="org.ib.sso.comm.lib.SamlTokenCallbackHandler"/>
 	
-	<jaxws:client id="Service1ManualClient"
+	<jaxws:client id="Service1PublicKeyManualClient"
 		serviceName="svc:Service1Service"
-		endpointName="svc:Service1Port"
+		endpointName="svc:Service1PublicKeyPort"
 		xmlns:svc="http://sso.ib.org/service/service1/"
 		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
-		address="http://localhost:10080/sso-demo-business-service1/Service1"
+		address="http://localhost:10080/sso-demo-business-service1/Service1PublicKey"
 		wsdlLocation="classpath:wsdl/Service1.wsdl">
 		
 		<jaxws:properties>
@@ -154,5 +155,41 @@
            	<entry key="ws-security.saml-callback-handler" value-ref="samlTokenCallbackHandler"/>
 		</jaxws:properties>
 	</jaxws:client>
+
+	<jaxws:client id="Service1BearerManualClient"
+		serviceName="svc:Service1Service"
+		endpointName="svc:Service1BearerPort"
+		xmlns:svc="http://sso.ib.org/service/service1/"
+		serviceClass="org.ib.sso.service.service1.Service1Endpoint"
+		address="http://localhost:10080/sso-demo-business-service1/Service1Bearer"
+		wsdlLocation="classpath:wsdl/Service1.wsdl">
+		
+		<jaxws:properties>
+			<entry key="ws-security.cache.issued.token.in.endpoint" value="true" />
+			
+			<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+			<entry key="ws-security.signature.properties" value="comm.properties"/>
+			<entry key="ws-security.signature.username" value="commkey"/>
+           	<entry key="ws-security.encryption.properties" value="comm.properties"/> 
+           	<entry key="ws-security.encryption.username" value="service1"/>
+           	<entry key="ws-security.saml-callback-handler" value-ref="samlTokenCallbackHandler"/>
+		</jaxws:properties>
+	</jaxws:client>
+
+	<bean id="service1ExtFacadePublicKey" class="org.ib.sso.comm.ext.Service1ExtFacade">
+		<property name="stopHere" value="false"/>
+		<property name="stsClient" ref="stsClientTransport"/>
+		<property name="service1" ref="Service1PublicKeyManualClient"/>
+		<property name="tokenType" value="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"/>
+		<property name="keyType" value="http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey"/>
+	</bean>
+
+	<bean id="service1ExtFacadeBearer" class="org.ib.sso.comm.ext.Service1ExtFacade">
+		<property name="stopHere" value="false"/>
+		<property name="stsClient" ref="stsClientTransport"/>
+		<property name="service1" ref="Service1BearerManualClient"/>
+		<property name="tokenType" value="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"/>
+		<property name="keyType" value="http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer"/>
+	</bean>
 
 </beans>

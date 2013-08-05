@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<!-- STS client using TLS -->
+
+	<bean id="stsClientTransport" class="org.apache.cxf.ws.security.trust.STSClient">
+		<constructor-arg ref="cxf" />
+		<property name="wsdlLocation" value="https://localhost:9443/sso-demo-security-sts/STSService?wsdl" />
+		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}TransportUT_Port" />
+					
+		<property name="enableAppliesTo" value="false" />
+		<property name="properties">
+			<map>
+				<entry key="ws-security.username" value="Libri"/>
+				<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+				<entry key="ws-security.sts.token.username" value="commkey"/>
+				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
+				<entry key="ws-security.sts.token.usecert" value="true"/>
+<!-- 				<entry key="ws-security.sts.applies-to" value=""/> -->
+			</map>
+		</property>
+	</bean>
+	
+	<!-- STS client using WS-Security -->
+	
+	<bean id="stsClientWsSec" class="org.apache.cxf.ws.security.trust.STSClient">
+		<constructor-arg ref="cxf" />
+		<property name="wsdlLocation" value="http://localhost:9080/sso-demo-security-sts/STSSymmetricService?wsdl" />
+		<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+		<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SymmetricUT_Port" />
+					
+		<property name="enableAppliesTo" value="false" />
+		<property name="properties">
+			<map>
+				<entry key="ws-security.username" value="Libri"/>
+				<entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+				<entry key="ws-security.sts.token.username" value="commkey"/>
+				<entry key="ws-security.sts.token.properties" value="comm.properties"/>
+				<entry key="ws-security.sts.token.usecert" value="true"/>
+				
+				<entry key="ws-security.encryption.properties" value="comm.properties" />
+                <entry key="ws-security.encryption.username" value="sts" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

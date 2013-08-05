@@ -19,12 +19,31 @@
 	</cxf:bus>
 
 	
-	<jaxws:endpoint id="Service1Service" 
+	<jaxws:endpoint id="Service1PublicKeyService" 
 		implementor="org.ib.sso.business.service1.Service1Impl"
 		wsdlLocation="WEB-INF/wsdl/Service1.wsdl"
 		serviceName="svc:Service1Service" xmlns:svc="http://sso.ib.org/service/service1/"
-		endpointName="svc:Service1Port"
-		address="/Service1">
+		endpointName="svc:Service1PublicKeyPort"
+		address="/Service1PublicKey">
+		
+		<jaxws:properties>
+			<entry key="ws-security.signature.properties" value="service1.properties" />
+			<entry key="ws-security.signature.username" value="service1key"/>
+	        
+	        <entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+
+	        <entry key="ws-security.encryption.properties" value="service1.properties"/>
+	        <entry key="ws-security.encryption.username" value="useReqSigCert"/>
+		</jaxws:properties>
+		
+	</jaxws:endpoint>
+	
+	<jaxws:endpoint id="Service1BearerService" 
+		implementor="org.ib.sso.business.service1.Service1Impl"
+		wsdlLocation="WEB-INF/wsdl/Service1.wsdl"
+		serviceName="svc:Service1Service" xmlns:svc="http://sso.ib.org/service/service1/"
+		endpointName="svc:Service1BearerPort"
+		address="/Service1Bearer">
 		
 		<jaxws:properties>
 			<entry key="ws-security.signature.properties" value="service1.properties" />

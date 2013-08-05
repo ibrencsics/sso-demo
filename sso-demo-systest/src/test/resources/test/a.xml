@@ -1,0 +1,80 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+		<wsse:Security
+			xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+			xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+			soap:mustUnderstand="1">
+			<saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion"
+				xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				ID="_EBC762C447342AF3D213757438045439" IssueInstant="2013-08-05T23:03:24.543Z"
+				Version="2.0" xsi:type="saml2:AssertionType">
+				<saml2:Issuer>SSO Demo STS</saml2:Issuer>
+				<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+					<ds:SignedInfo>
+						<ds:CanonicalizationMethod
+							Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+						<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+						<ds:Reference URI="#_EBC762C447342AF3D213757438045439">
+							<ds:Transforms>
+								<ds: Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+								<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+									<ec:InclusiveNamespaces
+										xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" PrefixList="xs" />
+								</ds:Transform>
+							</ds:Transforms>
+							<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+							<ds:DigestValue>GyuOQq2fv11DYJRzXnk+oCZZqMg=</ds:DigestValue>
+						</ds:Reference>
+					</ds:SignedInfo>
+					<ds:SignatureValue>aSmyxhzdEeyPsde9ipyhXbgnXdAMnpaoeV1Nc0gVZZOsMFOwHrA+MRpAM666KiUV/HktivOdZbl0ggyQVXkWpakLg9Q7/m3gSErLjQWQFHPbggMtGPsMMGA3kxxP0eAfvD9Oz3iztArxq6r4g2GnA+KI/kgI8TWZAKXeh0AIaeDZV0uVz10+ghAoi/DbiZQyrxj9kFyfLHls93pdtuGXzdLtW9CGNRHU+8b6bfG66s4u48CpZcDWGq4sVPWbb9PyajtRWZOYZo7GRq6BbcXMeYG7mRNaFSNPY3bnfKnAXLRyqlx8ClE9PgYJUEwSD/EobnrrvI5FU8SM1sV7/C2QWw==
+					</ds:SignatureValue>
+					<ds:KeyInfo>
+						<ds:X509Data>
+							<ds:X509Certificate>MIICrzCCAhigAwIBAgIBBDANBgkqhkiG9w0BAQQFADBlMQswCQYDVQQGEwJIVTERMA8GA1UECBMI
+								QnVkYXBlc3QxETAPBgNVBAcTCEJ1ZGFwZXN0MQwwCgYDVQQKEwNDQTExDDAKBgNVBAsTA0NBMTEU
+								MBIGA1UEAxMLd3d3LmNhMS5jb20wHhcNMTMwNjE5MDgzODU5WhcNMTYwMzE1MDgzODU5WjBSMQsw
+								CQYDVQQGEwJIVTERMA8GA1UECBMIQnVkYXBlc3QxDDAKBgNVBAoTA1NUUzEMMAoGA1UECxMDU1RT
+								MRQwEgYDVQQDEwt3d3cuc3RzLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALQH
+								sWVVQcSofFUWxiB+Ng7BuR/IqOBoa1/DZcpzxPK18QdbEXIar5qD6kW8CtoBBCOfaCZh5K2+dqzZ
+								v5UvrbZoTXuJa07YRR9kVq4F0/YVJab1Zt3jYfQGWh9c1Ts1gCNejl86eApR672UsONdEEPMf5ar
+								cstFZdrMlTpx7Ae37DI3SwkZ5vrN/NIoQpc0qqkQ7lqroz5C0yvP7R3Kw6cdISS9UN0r8s8ojnqg
+								/J2GXii3ueSsGcbYasUfIw1dfQjjvltw4M2ZQZdFZEC8WMdzToiWhh8mGYurEfFM4e2d6r+xrkDS
+								/qnUEpZe7pEIWXnRu2Rm6UXwFyKlb2ycOD8CAwEAATANBgkqhkiG9w0BAQQFAAOBgQAqfFc1rIdL
+								y9crpiFL5gIhheJrvZmxjTbRWnS6wKjKOPK7wLbBp9E9gjYQjgQpLUui8adAPBju93jy3a3d6BmN
+								pjBPUIVgaVItNKW5s6/5y3Lhcxe1r9G7x6bzjjcE5Rx1YXGSVYskcl5L7r2KOG0+8umyES+KLqET
+								ljOsapWEnA==
+							</ds:X509Certificate>
+						</ds:X509Data>
+					</ds:KeyInfo>
+				</ds:Signature>
+				<saml2:Subject>
+					<saml2:NameID
+						Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
+						NameQualifier="http://cxf.apache.org/sts">www.client.com</saml2:NameID>
+					<saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer" />
+				</saml2:Subject>
+				<saml2:Conditions NotBefore="2013-08-05T23:03:24.544Z"
+					NotOnOrAfter="2013-08-05T23:23:24.544Z" />
+				<saml2:AttributeStatement>
+					<saml2:Attribute
+						Name="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role"
+						NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+						<saml2:AttributeValue xsi:type="xs:string">Role 1
+						</saml2:AttributeValue>
+					</saml2:Attribute>
+					<saml2:Attribute
+						Name="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role"
+						NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+						<saml2:AttributeValue xsi:type="xs:string">Role 3
+						</saml2:AttributeValue>
+					</saml2:Attribute>
+				</saml2:AttributeStatement>
+			</saml2:Assertion>
+		</wsse:Security>
+	</SOAP-ENV:Header>
+	<soap: Body>
+		<TestRequest xmlns="http://sso.ib.org/xsd">
+			<MessageId>12</MessageId>
+		</TestRequest>
+	</soap:Body>
+</soap:Envelope>

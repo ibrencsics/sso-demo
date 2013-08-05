@@ -10,7 +10,7 @@
 	<!-- External services -->
 
 	<jaxws:endpoint id="service1ExtTransport"
-		implementor="org.ib.sso.comm.ext.Service1Ext"
+		implementor="#service1ExtFacadeBearer"
 		wsdlLocation="classpath:wsdl/Service1.wsdl"
 		serviceName="svc:Service1Service" 
 		endpointName="svc:Service1ExtTransportPort"
@@ -19,7 +19,7 @@
 	</jaxws:endpoint>
 	
 	<jaxws:endpoint id="service1ExtAsymmetric"
-		implementor="org.ib.sso.comm.ext.Service1Ext"
+		implementor="#service1ExtFacadeBearer"
 		wsdlLocation="classpath:wsdl/Service1.wsdl"
 		serviceName="svc:Service1Service" 
 		endpointName="svc:Service1ExtAsymmetricPort"
@@ -43,7 +43,7 @@
 		implementor="org.ib.sso.comm.in.Service2Int"
 		wsdlLocation="classpath:wsdl/Service2.wsdl"
 		serviceName="svc:Service2Service"
-		endpointName="svc:Service2Port"
+		endpointName="svc:Service2BearerPort"
 		xmlns:svc="http://sso.ib.org/service/service2/"
 		address="/${COMM_SERVICE2_WEB_CTX}">
 		
@@ -54,7 +54,7 @@
 	        <entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
 	        
 	        <entry key="ws-security.encryption.properties" value="comm.properties"/>
-<!-- 	        <entry key="ws-security.encryption.username" value="useReqSigCert"/> -->
+	        <entry key="ws-security.encryption.username" value="useReqSigCert"/>
 		</jaxws:properties>
 	</jaxws:endpoint>
 	

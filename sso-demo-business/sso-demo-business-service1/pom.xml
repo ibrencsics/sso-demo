@@ -26,14 +26,14 @@
 							<directory>src/main/webapp</directory>
 						</resource>
 						<resource>
-                            <directory>../../sso-demo-utils/src/main/resources/wsdl</directory>
+                            <directory>../../sso-demo-comm/sso-demo-comm-lib/src/main/resources/wsdl</directory>
                             <targetPath>WEB-INF/wsdl</targetPath>
                             <includes>
                                 <include>Service1.wsdl</include>
                             </includes>
                         </resource>
                         <resource>
-                            <directory>../../sso-demo-utils/src/main/resources/xsd</directory>
+                            <directory>../../sso-demo-comm/sso-demo-comm-lib/src/main/resources/xsd</directory>
                             <targetPath>WEB-INF/xsd</targetPath>
                             <includes>
                                 <include>*.xsd</include>
