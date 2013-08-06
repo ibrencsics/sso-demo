@@ -19,19 +19,21 @@
 	</cxf:bus>
 
 	
-	<jaxws:endpoint id="Service2Service" 
+	<jaxws:endpoint id="Service2BearerService" 
 		implementor="org.ib.sso.business.service2.Service2Impl"
 		wsdlLocation="WEB-INF/wsdl/Service2.wsdl"
 		serviceName="svc:Service2Service" xmlns:svc="http://sso.ib.org/service/service2/"
-		endpointName="svc:Service2Port"
-		address="/Service2">
+		endpointName="svc:Service2BearerPort"
+		address="/Service2Bearer">
 		
 		<jaxws:properties>
 			<entry key="ws-security.signature.properties" value="service2.properties" />
 			<entry key="ws-security.signature.username" value="service2key"/>
 	        
 	        <entry key="ws-security.callback-handler" value-ref="usernamePasswordCallbackHandler"/>
+	        
 	        <entry key="ws-security.encryption.properties" value="service2.properties"/>
+	        <entry key="ws-security.encryption.username" value="useReqSigCert"/>
 		</jaxws:properties>
 		
 	</jaxws:endpoint>
