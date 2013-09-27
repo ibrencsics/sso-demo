@@ -19,7 +19,7 @@ public class Service1DirectTest {
         return ctx;
     }
 	
-	@Test
+//	@Test
 	public void callTest() {
 		
 		Service1Endpoint service = (Service1Endpoint) getContext().getBean("Service1Client");
