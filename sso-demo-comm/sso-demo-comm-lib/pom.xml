@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.ib</groupId>
 		<artifactId>sso-demo-comm</artifactId>
-		<version>1.0</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>sso-demo-comm-lib</artifactId>
 	<name>SSO Demo Communication Module Library</name>
